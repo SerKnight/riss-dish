@@ -19,7 +19,8 @@ $_search-icon-size: 1rem;
   height: $_search-icon-size;
   left: $_search-icon-size;
   position: absolute;
-  top: 50%;
+  left: -25px;
+  top: 25px;
   transform: translateY(-50%);
   width: $_search-icon-size;
 }

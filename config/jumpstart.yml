@@ -1,0 +1,17 @@
+--- !ruby/object:Jumpstart::Configuration
+application_name: Riss Dishes
+business_name: Karissa's Home-Cooked Dishes
+business_address: |-
+  3928 N Williams St
+  Denver CO. 80205
+domain: example.com
+default_from_email: Jumpstart <support@example.com>
+support_email: rissdishes@gmail.com
+background_job_processor: async
+email_provider: ''
+personal_accounts: true
+solargraph: false
+register_with_account: false
+apns: false
+fcm: false
+collect_billing_address: false
