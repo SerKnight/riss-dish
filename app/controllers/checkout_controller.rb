@@ -35,12 +35,29 @@ class CheckoutController < ApplicationController
   
     @pagy, @days = pagy(@days.sort_by_params(params[:sort], sort_direction))
   end
-  
-  
+
+  def slots
+    current_day = Date.parse(params[:day])
+    current_month = current_day.month
+    current_year = current_day.year
+    days_in_month = Time.days_in_month(current_month, current_year)
+
+    
+    @start_date = Date.new(current_year, current_month, 1)
+    @end_date = @start_date.end_of_month
+
+    # create a range from 2 days before to 2 days after the given date
+    date = Date.parse(params[:day])
+    date_range = (date - 1.days)..(date + 2.days)
+    @day = Day.where(date: date_range).first
+
+  end
 
   def meals
 
   end
+
+
 
   def set_day
     @day = Day.find(params[:id])

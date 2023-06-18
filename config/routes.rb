@@ -14,10 +14,10 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
-  get '/calendar', to: 'checkout#calendar'
-  get '/meals/:date', to: 'checkout#meals'
-  get '/slots/:day', to: 'checkout#slots'
-  get '/order/:slot', to: 'checkout#order'
+  get '/checkout/calendar', to: 'checkout#calendar'
+  get '/checkout/meals/:day', to: 'checkout#meals'
+  get '/checkout/slots/:day', to: 'checkout#slots'
+  get '/checkout/order/:day/:order_id', to: 'checkout#order'
   resources :orders
 
   # Administrate

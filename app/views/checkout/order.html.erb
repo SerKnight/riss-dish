@@ -1,17 +1,20 @@
-<!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
+<%= render partial: 'progress', locals: {
+  steps: {
+    'Pick Day' => 'completed',
+    'Choose Slot' => 'active',
+    'Customize a Meal' => 'disabled',
+    'Checkout' => 'disabled'
+  }}
+%>
+<div class="border border-gray-400 rounded p-10 m-20 my-8">
+  <div>
+    <h2 class="text-base font-semibold leading-6 text-gray-900">Upcoming Meal Days</h2>
+    <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
+      dw
+    </div>
+  </div>
+</div>
+</div>
 <div class="bg-white">
   <div class="mx-auto max-w-4xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
     <h1 class="text-3xl font-bold tracking-tight text-gray-900">Shopping Cart</h1>
