@@ -1,7 +1,7 @@
 {
-  "name": "Jumpstart Pro",
-  "description": "A Ruby on Rails template for SaaS apps and more",
-  "website": "https://jumpstartrails.com",
+  "name": "Riss' Dishes",
+  "description": "An application to buy local chef-inspired meals, for your family or dinner party",
+  "website": "https://rissdishes.com",
   "scripts": {
     "postdeploy": "bundle exec rails db:migrate"
   },

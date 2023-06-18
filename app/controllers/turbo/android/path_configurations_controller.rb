@@ -15,7 +15,7 @@ class Turbo::Android::PathConfigurationsController < ApplicationController
             icon: "home"
           },
           {
-            title: "What's New",
+            title: "New Dishes",
             path: announcements_path,
             icon: "announcement"
           },

@@ -1,11 +1,11 @@
 --- !ruby/object:Jumpstart::Configuration
 application_name: Riss Dishes
-business_name: Karissa's Home-Cooked Dishes
+business_name: Riss' Home-Cooked Dishes
 business_address: |-
   3928 N Williams St
   Denver CO. 80205
 domain: example.com
-default_from_email: Jumpstart <support@example.com>
+default_from_email: Karissa <rissdishes@gmail.com>
 support_email: rissdishes@gmail.com
 background_job_processor: async
 email_provider: ''

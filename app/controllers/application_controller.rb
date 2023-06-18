@@ -55,4 +55,8 @@ class ApplicationController < ActionController::Base
   def require_account
     redirect_to new_user_registration_path unless current_account
   end
+
+  def authenticate_admin
+    redirect_to "/", alert: "Not authorized." unless user_signed_in? && true_user.admin?
+  end
 end

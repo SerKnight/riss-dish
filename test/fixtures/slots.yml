@@ -1,0 +1,35 @@
+# == Schema Information
+#
+# Table name: slots
+#
+#  id                  :bigint           not null, primary key
+#  available_additions :integer
+#  available_entrees   :integer
+#  delivery_end_time   :datetime
+#  delivery_start_time :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  day_id              :bigint           not null
+#
+# Indexes
+#
+#  index_slots_on_day_id  (day_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (day_id => days.id)
+#
+
+one:
+  day: one
+  delivery_start_time: 2023-06-11 21:54:12
+  delivery_end_time: 2023-06-11 21:54:12
+  available_additions: 1
+  available_entrees: 1
+
+two:
+  day: two
+  delivery_start_time: 2023-06-11 21:54:12
+  delivery_end_time: 2023-06-11 21:54:12
+  available_additions: 1
+  available_entrees: 1

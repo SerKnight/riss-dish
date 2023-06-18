@@ -1,0 +1,22 @@
+<div id="<%= dom_id slot %>">
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Day</p>
+    <%= slot.day_id %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Delivery start time</p>
+    <%= slot.delivery_start_time %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Delivery end time</p>
+    <%= slot.delivery_end_time %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Available additions</p>
+    <%= slot.available_additions %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Available entrees</p>
+    <%= slot.available_entrees %>
+  </div>
+</div>

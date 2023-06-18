@@ -1,0 +1,23 @@
+# == Schema Information
+#
+# Table name: days
+#
+#  id          :bigint           not null, primary key
+#  date        :datetime
+#  description :text
+#  is_locked   :boolean
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+one:
+  description: MyText
+  image: MyText
+  date: 2023-06-11 21:53:23
+  is_locked: false
+
+two:
+  description: MyText
+  image: MyText
+  date: 2023-06-11 21:53:23
+  is_locked: false

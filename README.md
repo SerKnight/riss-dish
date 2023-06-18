@@ -110,3 +110,6 @@ If you'd like to use the fullstaq-ruby or other Dockerfile you can specify them 
 ```bash
 docker build -f ./Dockerfile.fullstaq-ruby .
 ```
+
+
+https://static.app/sites/ode9xjzbai/files
