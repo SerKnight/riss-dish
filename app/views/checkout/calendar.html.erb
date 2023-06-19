@@ -1,8 +1,8 @@
 <%= render partial: 'progress', locals: {
   steps: {
-    'Choose' => 'active',
-    'Customize' => 'disabled',
-    'Checkout' => 'disabled'
+    'Choose your Meal' => ['active', checkout_calendar_path], 
+    'Customize' => ['disabled', "#"],
+    'Checkout' => ['disabled', "#"]
   }}
 %>
 <div class="border border-gray-400 rounded p-10 m-20 my-8">

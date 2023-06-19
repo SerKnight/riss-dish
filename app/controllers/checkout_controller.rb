@@ -29,16 +29,47 @@ class CheckoutController < ApplicationController
     @days_in_month = Time.days_in_month(@current_month, @current_year)
     @start_date = Date.new(@current_year, @current_month, 1)
     @end_date = @start_date.end_of_month
+
     @days = fetch_days(@start_date, @end_date, Date.today)
     @pagy, @days = pagy(@days.sort_by_params(params[:sort], sort_direction))
   end
 
   def customize
     @day = Day.where("DATE(date) = ?", params[:date]).first
-    @order = Order.create(slot: @day.slots.sample, user: current_user)
+  
+    total_completed_orders = Order.where(slot_id: @day.slots.pluck(:id), completed: true).count
+    total_available_slots = @day.slots.sum(:available_additions)
+  
+    if total_completed_orders < total_available_slots
+      @order = Order.create(slot: @day.slots.sample, user: current_user)
+    else
+      # Handle the case when no slots are available
+      # You can raise an error, redirect, or display an appropriate message to the user
+      redirect_to '/checkout/calendar', notice: "Sorry, but the orders for #{@day.date.strftime("%Y-%m-%d")} have just reached capacity"
+
+    end
+  end  
+
+  def process_customization
+    @order = Order.find(params[:order_id])
+    
+    params[:product].each do |product_id, product_data|
+      next if product_data[:quantity].to_i <= 0
+
+      @order.order_items.create!(
+        product_id: product_id,
+        quantity: product_data[:quantity],
+        price: Product.find(product_id).price * product_data[:quantity].to_i,
+        comments: product_data[:comments]
+      )
+    end
+
+    @order.update(tupperware_charge: params[:tupperware_charge], subtotal: params[:subtotal], tax: params[:tax], total: params[:total])
+
+    redirect_to payment_path(date: params[:date], order_id: @order.id)
   end
 
-  def order
+  def payment
     @day = Day.where("DATE(date) = ?", params[:date]).first
     @order = Order.create(slot: @day.slots.sample, user: current_user)
   end
@@ -52,4 +83,22 @@ class CheckoutController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     redirect_to root_path
   end
+
+  private
+
+  def checkout_params
+    product_params = params.require(:checkout).fetch(:product, {})
+    product_params.each { |id, product| product.permit! }
+    
+    params.require(:checkout).permit(
+      :tupperware_charge,
+      :subtotal,
+      :tax,
+      :total,
+      :comments,
+      :date,
+      :order_id,
+    ).merge(product: product_params)
+  end
+  
 end

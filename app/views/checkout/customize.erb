@@ -1,8 +1,8 @@
 <%= render partial: 'progress', locals: {
   steps: {
-    'Choose' => 'completed',
-    'Customize' => 'active',
-    'Checkout' => 'disabled'
+    'Choose your Meal' => ['completed', checkout_calendar_path], 
+    'Customize' => ['active', "#"],
+    'Checkout' => ['disabled', "#"]
   }}
 %>
 <div class="border border-gray-400 rounded p-10 m-20 my-8">
@@ -11,11 +11,15 @@
       <div class="mx-auto max-w-4xl px-4 py-5 sm:px-6">
         <h2 class="text-lg font-bold mb-2">A note from the Chef</h2>
         <p className="text-sm font-medium text-gray-900 mb-4">Hosting a dinner, or just a night in? There is currently a minimum of 2 dishes for an order. Please leave me any comments below!</p>
-        <form class="mt-12" method="post" action="/checkouts/order">
+        <form class="mt-12" method="post" action="/checkout/<%= @day.date.strftime("%Y-%m-%d") %>/payment/<%= @order.id %>">
+          <!-- End of Hidden Fields -->
           <div>
             <h2 class="sr-only">Items in your meal</h2>
             <ul role="list" class="divide-y divide-gray-200 border-b border-t border-gray-200">
               <% @day.all_products.each do |product| %>
+                <!-- Hidden Field for Product Total -->
+                <input type="hidden" id="hiddenProductTotal-<%= product.id %>" name="product[<%= product.id %>][total]" value="">
+                <!-- End of Hidden Field -->
                 <li class="flex py-6 sm:py-10">
                   <div class="flex-shrink-0">
                     <%= image_tag url_for(product.main_image), alt: product.description, class: 'h-24 w-24 rounded-lg object-cover object-center sm:h-32 sm:w-32' %>
@@ -44,7 +48,7 @@
                       </div>
                       <div class="mt-4">
                         <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
-                        <textarea id="comments" name="comments" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+                        <textarea id="comments" name="product[<%= product.id %>][comments]" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
                       </div>
                       <div class="mt-4 flex items-center sm:absolute sm:left-1/2 sm:top-0 sm:mt-0 sm:block">
                         <label for="quantity-<%= product.id %>" class="sr-only">Quantity, <%= product.title %></label>
@@ -102,9 +106,16 @@
               </dl>
             </div>
           </div>
+          <!-- Hidden form fields for the server -->
+          <input type="hidden" name="subtotal" id="hiddenSubtotal">
+          <input type="hidden" name="tax" id="hiddenTax">
+          <input type="hidden" name="total" id="hiddenTotal">
+          <% @day.all_products.each do |product| %>
+            <input type="hidden" name="product-total-<%= product.id %>" id="hiddenProductTotal<%= product.id %>">
+          <% end %>
           <div class="mt-10">
             <div class="mt-10">
-              <%= submit_tag "Checkout", class: "w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50" %>
+              <%= submit_tag "Order for #{@day.date.strftime('%A, %B %d')}", class: "cursor-pointer w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50" %>
             </div>
           </div>
         </div>
@@ -148,46 +159,48 @@
     function updateTotal() {
       var subtotal = 0;
 
-      // Calculate subtotal based on selected quantity for each product
-      var quantitySelectors = document.getElementsByClassName('quantity-selector');
-      for (var i = 0; i < quantitySelectors.length; i++) {
-        var selector = quantitySelectors[i];
-        var quantity = selector.value;
-        var price = selector.dataset.price;
+      // Add up all the product totals
+      document.querySelectorAll('.quantity-selector').forEach(function(quantitySelector) {
+        var quantity = quantitySelector.value;
+        var price = quantitySelector.getAttribute('data-price');
         var productTotal = quantity * price;
         subtotal += productTotal;
 
-        // Update the product total
-        document.getElementById('product-total-' + selector.id.split("-")[1]).innerText = `${price} * ${quantity} = $${productTotal.toFixed(2)}`;
-      }
+        // Update product total on page and in hidden form field
+        var productId = quantitySelector.getAttribute('id').replace('quantity-', '');
+        document.getElementById('product-total-' + productId).innerText = `$${price} * ${quantity} = $${productTotal.toFixed(2)}`;;
+        document.getElementsByName(`product[${productId}][total]`)[0].value = productTotal.toFixed(2);
+      });
 
-      // Add tupperware cost if it is selected
-      var button = document.getElementById('toggleButton');
-      if (button.classList.contains('bg-indigo-600')) {
+      // Calculate tax
+      var tax = subtotal * baseTaxRate;
+
+      // Add tupperware cost if selected
+      if (document.getElementById('toggleButton').getAttribute('aria-checked') === 'true') {
         subtotal += tupperwareCost;
       }
 
-      // Calculate tax and total
-      var tax = subtotal * baseTaxRate;
+      // Calculate total
       var total = subtotal + tax;
 
-      // Update the UI
+      // Update totals on page and in hidden form fields
       document.getElementById('subtotal').innerText = subtotal.toFixed(2);
       document.getElementById('tax').innerText = tax.toFixed(2);
       document.getElementById('total').innerText = total.toFixed(2);
+      document.getElementById('hiddenSubtotal').value = subtotal.toFixed(2);
+      document.getElementById('hiddenTax').value = tax.toFixed(2);
+      document.getElementById('hiddenTotal').value = total.toFixed(2);
     }
 
-    // Update total whenever a product quantity changes
-    var quantitySelectors = document.getElementsByClassName('quantity-selector');
-    for (var i = 0; i < quantitySelectors.length; i++) {
-      var selector = quantitySelectors[i];
-      selector.addEventListener('change', updateTotal);
-    }
+    // Calculate and update total whenever quantity is changed
+    document.querySelectorAll('.quantity-selector').forEach(function(quantitySelector) {
+      quantitySelector.addEventListener('change', updateTotal);
+    });
 
-    // Update total whenever the tupperware option changes
+    // Calculate and update total whenever tupperware option is toggled
     document.getElementById('toggleButton').addEventListener('click', updateTotal);
 
-    // Initial total calculation
+    // Calculate and update total on page load
     updateTotal();
   });
 </script>

@@ -1,32 +1,10 @@
 <%= render partial: 'progress', locals: {
   steps: {
-    'Choose' => 'completed',
-    'Customize' => 'completed',
-    'Checkout' => 'active'
-  }}
+    'Choose your Meal' => ['completed', checkout_calendar_path], 
+    'Customize' => ['active', "/checkout/#{@day.date.strftime("%Y-%m-%d")}/customize"],
+    'Checkout' => ['disabled', "#"]
+}}
 %>
-<!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-<!--
-  This example requires updating your template:
-
-  ```
-  <html class="h-full bg-white">
-  <body class="h-full">
-  ```
--->
 <main class="lg:flex lg:min-h-full lg:flex-row-reverse lg:overflow-hidden">
   <h1 class="sr-only">Checkout</h1>
   <section aria-labelledby="order-heading" class="bg-gray-50 px-4 py-6 sm:px-6 lg:hidden">
@@ -81,7 +59,7 @@
             <p class="text-gray-500">5L</p>
           </div>
           <div class="flex space-x-4">
-            <a href="/checkout/<%= day.date.strftime("%Y-%m-%d") %>/customize">
+            <a href="/checkout/<%= @day.date.strftime("%Y-%m-%d") %>/customize">
               <button type="button" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Customize</button>
             </a>
           </div>
@@ -215,6 +193,12 @@
           Payment details stored in plain text
         </p>
       </form>
+    </div>
+    <div class="mt-10 flex items-start justify-start">
+      <a href="<%= user_root_path %>" class="ml-4 text-sm font-semibold leading-6 text-indigo-600">
+        <span aria-hidden="true">&larr;</span>
+        Back to home
+      </a>
     </div>
   </section>
 </main>

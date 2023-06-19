@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_19_022111) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_19_183910) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -198,15 +198,21 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_19_022111) do
     t.decimal "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "comments"
     t.index ["order_id"], name: "index_order_items_on_order_id"
     t.index ["product_id"], name: "index_order_items_on_product_id"
   end
 
   create_table "orders", force: :cascade do |t|
     t.bigint "slot_id", null: false
-    t.bigint "user_id", null: false
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "tupperware_charge", precision: 8, scale: 2
+    t.decimal "subtotal", precision: 8, scale: 2
+    t.decimal "tax", precision: 8, scale: 2
+    t.decimal "total", precision: 8, scale: 2
+    t.boolean "completed", default: false
     t.index ["slot_id"], name: "index_orders_on_slot_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end

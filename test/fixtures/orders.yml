@@ -2,11 +2,16 @@
 #
 # Table name: orders
 #
-#  id         :bigint           not null, primary key
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  slot_id    :bigint           not null
-#  user_id    :bigint           not null
+#  id                :bigint           not null, primary key
+#  completed         :boolean          default(FALSE)
+#  subtotal          :decimal(8, 2)
+#  tax               :decimal(8, 2)
+#  total             :decimal(8, 2)
+#  tupperware_charge :decimal(8, 2)
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  slot_id           :bigint           not null
+#  user_id           :bigint
 #
 # Indexes
 #
