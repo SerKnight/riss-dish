@@ -27,45 +27,20 @@ class CheckoutController < ApplicationController
     @current_month = (params[:month] || Date.today.month).to_i
     @current_year = Date.today.year
     @days_in_month = Time.days_in_month(@current_month, @current_year)
-    
     @start_date = Date.new(@current_year, @current_month, 1)
     @end_date = @start_date.end_of_month
-  
     @days = fetch_days(@start_date, @end_date, Date.today)
-  
     @pagy, @days = pagy(@days.sort_by_params(params[:sort], sort_direction))
   end
 
-  def slots
-    @current_month = (params[:month] || Date.today.month).to_i
-    @current_year = Date.today.year
-    @days_in_month = Time.days_in_month(@current_month, @current_year)
-    
-    @start_date = Date.new(@current_year, @current_month, 1)
-    @end_date = @start_date.end_of_month
-    
-    current_day = Date.parse(params[:day])
-    current_month = current_day.month
-    current_year = current_day.year
-    days_in_month = Time.days_in_month(current_month, current_year)
-
-    
-    @start_date = Date.new(current_year, current_month, 1)
-    @end_date = @start_date.end_of_month
-
-    # create a range from 2 days before to 2 days after the given date
-    date = Date.parse(params[:day])
-    date_range = (date - 1.days)..(date + 2.days)
-    @day = Day.where(date: date_range).first
-
-    @first_slot_window, @second_slot_window = @day.slots.partition do |slot|
-      slot.delivery_start_time.hour == 22
-    end
-
+  def customize
+    @day = Day.where("DATE(date) = ?", params[:date]).first
+    @order = Order.create(slot: @day.slots.sample, user: current_user)
   end
 
-  def meals
-    @slot = Slot.find(params[:slot_id])
+  def order
+    @day = Day.where("DATE(date) = ?", params[:date]).first
+    @order = Order.create(slot: @day.slots.sample, user: current_user)
   end
 
   def set_day

@@ -31,6 +31,10 @@ class Day < ApplicationRecord
 
   after_save :create_default_slots
 
+  def all_products
+    Product.where(id: self.primary_product_id).or(Product.where(id: self.product_ids))
+  end
+
   private
 
   def create_default_slots

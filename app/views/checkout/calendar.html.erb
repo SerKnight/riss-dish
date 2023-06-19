@@ -1,8 +1,7 @@
 <%= render partial: 'progress', locals: {
   steps: {
-    'Pick Day' => 'active',
-    'Choose Slot' => 'disabled',
-    'Customize a Meal' => 'disabled',
+    'Choose' => 'active',
+    'Customize' => 'disabled',
     'Checkout' => 'disabled'
   }}
 %>
@@ -42,45 +41,33 @@
           <div>T</div>
           <div>F</div>
           <div>S</div>
-          <!--  // black select = bg-gray-900 font-semibold text-white -->
-          <!--  // has days = text-indigo-600 // font-semibold-->
         </div>
         <div class="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
-          <!-- <% starting_weekday = @start_date.beginning_of_month.wday %> 
-  <% day_names = Date::DAYNAMES.rotate(starting_weekday) %>-->
-          <!-- Suppose 'starting_weekday' is the day of the week on which your calendar starts (0 = Sunday, 1 = Monday, ..., 6 = Saturday). -->
-          <!-- Suppose 'first_day_of_month' is the weekday of the first day of the month you're displaying (again, 0 = Sunday, 1 = Monday, ..., 6 = Saturday). -->
           <% starting_weekday = 0 # Sunday, for example %>
           <% first_day_of_month = @start_date.beginning_of_day.wday # the weekday of the first day of the month %>
-          <!-- The number of blank days needed is the difference between these two values, or 0 if the first day of the month is earlier in the week than the start of the calendar week. -->
           <% padding = [0, (first_day_of_month - starting_weekday)].max %>
           <% padding.times do %>
             <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
               <time datetime="" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">&nbsp;</time>
             </button>
           <% end %>
-          <!-- Then your existing loop -->
           <% (@start_date..@end_date).each do |date| %>
-            <!-- the rest of your loop -->
           <% end %>
           <% (@start_date..@end_date).each do |date| %>
             <% day = @days.find { |d| d.date.to_date == date } %>
             <% if date == Date.today %>
-              <!-- Current Day -->
               <button type="button" class="bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
                 <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-900 font-semibold text-white">
                   <%= date.day %>
                 </time>
               </button>
             <% elsif day && day.primary_product %>
-              <!-- Day with product(s) -->
-              <a data-day-id="<%= date %>" href="/checkout/slots/<%= day.date.strftime("%Y-%m-%d") %>" class="text-indigo-600 bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+              <a data-day-id="<%= date %>" href="/checkout/<%= day.date.strftime("%Y-%m-%d") %>/customize" class="text-indigo-600 bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
                 <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-indigo-900 font-semibold text-white">
                   <%= date.day %>
                 </time>
               </a>
             <% else %>
-              <!-- Day without product(s) -->
               <button type="button" class="bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
                 <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">
                   <%= date.day %>
@@ -106,7 +93,7 @@
         <ul role="list" class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm sm:rounded-xl">
           <ul role="list" class="no-list grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
             <% @days.each do |day| %>
-              <a href="/<%= day.id %>" data-product-id="<%= day.date.strftime("%Y-%m-%d") %>">
+              <a href="/checkout/<%= day.date.strftime("%Y-%m-%d") %>/customize" data-product-id="<%= day.date.strftime("%Y-%m-%d") %>">
                 <li class="overflow-hidden rounded-xl border border-gray-200 hover:bg-indigo-100 transition-colors duration-200 ease-in-out">
                   <div class="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
                     <img src="<%= url_for(day.primary_product.main_image) %>" alt="Tuple" class="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">

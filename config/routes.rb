@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   end
 
   get '/checkout/calendar', to: 'checkout#calendar'
-  get '/checkout//slot/:slot_id/meals', to: 'checkout#meals'
-  get '/checkout/slots/:day', to: 'checkout#slots'
-  get '/checkout/order/:day/:order_id', to: 'checkout#order'
+  get '/checkout/:date/customize', to: 'checkout#customize'
+  get '/checkout/:date/:order_id', to: 'checkout#order'
+  get '/checkout/:date/:order_id/confirmation', to: 'checkout#order_confirmation'
   resources :orders
 
   # Administrate
