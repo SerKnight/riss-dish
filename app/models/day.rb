@@ -2,12 +2,21 @@
 #
 # Table name: days
 #
-#  id          :bigint           not null, primary key
-#  date        :datetime
-#  description :text
-#  is_locked   :boolean
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id                 :bigint           not null, primary key
+#  date               :datetime
+#  description        :text
+#  is_locked          :boolean
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  primary_product_id :bigint
+#
+# Indexes
+#
+#  index_days_on_primary_product_id  (primary_product_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (primary_product_id => products.id)
 #
 class Day < ApplicationRecord
   # Broadcast changes in realtime with Hotwire
@@ -18,24 +27,47 @@ class Day < ApplicationRecord
   has_many :day_products
   has_many :products, through: :day_products
   has_many :slots
+  belongs_to :primary_product, class_name: "Product", optional: true
 
-  after_update :create_default_slots
+  after_save :create_default_slots
 
   private
 
   def create_default_slots
-    8.times do |i|
-      self.slots.create(
-        delivery_start_time: (self.date + i.hours), 
-        delivery_end_time: (self.date + (i+4).hours),
-        available_additions: default_additions, 
-        available_entrees: default_entrees
-      )
+    if self.slots.empty?
+      Time.use_zone('Mountain Time (US & Canada)') do
+    
+        # 4-5PM slots
+        4.times do |i|
+          delivery_start = self.date.change(hour: 16, min: 0)
+          delivery_end = self.date.change(hour: 17, min: 0)
+    
+          self.slots.create(
+            delivery_start_time: delivery_start,
+            delivery_end_time: delivery_end,
+            available_additions: default_additions,
+            available_entrees: default_entrees
+          )
+        end
+    
+        # 5-6PM slots
+        4.times do |i|
+          delivery_start = self.date.change(hour: 17, min: 0)
+          delivery_end = self.date.change(hour: 18, min: 0)
+    
+          self.slots.create(
+            delivery_start_time: delivery_start,
+            delivery_end_time: delivery_end,
+            available_additions: default_additions,
+            available_entrees: default_entrees
+          )
+        end
+      end
     end
   end
 
   def default_additions
-    10
+    6
   end
 
   def default_entrees

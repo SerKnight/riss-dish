@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_18_023938) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_19_022111) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -164,6 +164,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_023938) do
     t.boolean "is_locked"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "primary_product_id"
+    t.index ["primary_product_id"], name: "index_days_on_primary_product_id"
   end
 
   create_table "notification_tokens", force: :cascade do |t|
@@ -380,6 +382,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_023938) do
   add_foreign_key "api_tokens", "users"
   add_foreign_key "day_products", "days"
   add_foreign_key "day_products", "products"
+  add_foreign_key "days", "products", column: "primary_product_id"
   add_foreign_key "order_items", "orders"
   add_foreign_key "order_items", "products"
   add_foreign_key "orders", "slots"

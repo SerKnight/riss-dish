@@ -1,5 +1,6 @@
 class DaysController < ApplicationController
   before_action :set_day, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_admin
 
   # Uncomment to enforce Pundit authorization
   # after_action :verify_authorized
@@ -94,7 +95,7 @@ class DaysController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def day_params
-    params.require(:day).permit(:description, :date, :is_locked, product_ids: [])
+    params.require(:day).permit(:description, :date, :is_locked, :primary_product_id, product_ids: [])
     # Uncomment to use Pundit permitted attributes
     # params.require(:day).permit(policy(@day).permitted_attributes)
   end

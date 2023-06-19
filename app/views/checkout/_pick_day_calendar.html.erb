@@ -59,7 +59,7 @@
           <%= date.day %>
         </time>
       </button>
-    <% elsif day && day.products.any? %>
+    <% elsif day && day.primary_product %>
       <!-- Day with product(s) -->
       <a href="/checkout/slots/<%= day.date.strftime("%Y-%m-%d") %>" class="text-indigo-600 bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
         <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-indigo-900 font-semibold text-white">

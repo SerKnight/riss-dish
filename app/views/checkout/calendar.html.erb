@@ -8,52 +8,194 @@
 %>
 <div class="border border-gray-400 rounded p-10 m-20 my-8">
   <div>
-    <h2 class="text-base font-semibold leading-6 text-gray-900"><%= @upcoming_meal_copy %></h2>
+    <h1 class="text-base font-semibold text-gray-900 text-2xl"><%= @upcoming_meal_copy %></h1>
     <div class="lg:grid lg:grid-cols-12 lg:gap-x-16">
       <div class="mt-10 text-center lg:col-start-8 lg:col-end-13 lg:row-start-1 lg:mt-9 xl:col-start-9">
-        <%= render partial: 'pick_day_calendar' %>
+        <div class="flex items-center text-gray-900">
+          <% unless @current_month == 1 %>
+            <a href="/checkout/calendar?month=<%= @current_month - 1 %>">
+              <button type="button" class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Previous month</span>
+                <svg class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </a>
+          <% end %>
+          <div class="flex-auto text-sm font-semibold"><%= Date::MONTHNAMES[@current_month] %></div>
+          <% unless @current_month == 12 %>
+            <a href="/checkout/calendar?month=<%= @current_month + 1 %>">
+              <button type="button" class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
+                <span class="sr-only">Next month</span>
+                <svg class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                  <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </a>
+          <% end %>
+        </div>
+        <div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
+          <div>S</div>
+          <div>M</div>
+          <div>T</div>
+          <div>W</div>
+          <div>T</div>
+          <div>F</div>
+          <div>S</div>
+          <!--  // black select = bg-gray-900 font-semibold text-white -->
+          <!--  // has days = text-indigo-600 // font-semibold-->
+        </div>
+        <div class="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
+          <!-- <% starting_weekday = @start_date.beginning_of_month.wday %> 
+  <% day_names = Date::DAYNAMES.rotate(starting_weekday) %>-->
+          <!-- Suppose 'starting_weekday' is the day of the week on which your calendar starts (0 = Sunday, 1 = Monday, ..., 6 = Saturday). -->
+          <!-- Suppose 'first_day_of_month' is the weekday of the first day of the month you're displaying (again, 0 = Sunday, 1 = Monday, ..., 6 = Saturday). -->
+          <% starting_weekday = 0 # Sunday, for example %>
+          <% first_day_of_month = @start_date.beginning_of_day.wday # the weekday of the first day of the month %>
+          <!-- The number of blank days needed is the difference between these two values, or 0 if the first day of the month is earlier in the week than the start of the calendar week. -->
+          <% padding = [0, (first_day_of_month - starting_weekday)].max %>
+          <% padding.times do %>
+            <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+              <time datetime="" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">&nbsp;</time>
+            </button>
+          <% end %>
+          <!-- Then your existing loop -->
+          <% (@start_date..@end_date).each do |date| %>
+            <!-- the rest of your loop -->
+          <% end %>
+          <% (@start_date..@end_date).each do |date| %>
+            <% day = @days.find { |d| d.date.to_date == date } %>
+            <% if date == Date.today %>
+              <!-- Current Day -->
+              <button type="button" class="bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+                <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-900 font-semibold text-white">
+                  <%= date.day %>
+                </time>
+              </button>
+            <% elsif day && day.primary_product %>
+              <!-- Day with product(s) -->
+              <a data-day-id="<%= date %>" href="/checkout/slots/<%= day.date.strftime("%Y-%m-%d") %>" class="text-indigo-600 bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+                <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-indigo-900 font-semibold text-white">
+                  <%= date.day %>
+                </time>
+              </a>
+            <% else %>
+              <!-- Day without product(s) -->
+              <button type="button" class="bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+                <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">
+                  <%= date.day %>
+                </time>
+              </button>
+            <% end %>
+          <% end %>
+          <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+            <time datetime="2022-02-01" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">1</time>
+          </button>
+          <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+            <time datetime="2022-02-02" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">2</time>
+          </button>
+          <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+            <time datetime="2022-02-03" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">3</time>
+          </button>
+          <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+            <time datetime="2022-02-04" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">4</time>
+          </button>
+        </div>
+      </div>
+      <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8">
+        <ul role="list" class="divide-y divide-gray-100 overflow-hidden bg-white shadow-sm sm:rounded-xl">
+          <ul role="list" class="no-list grid grid-cols-1 gap-x-6 gap-y-8 lg:grid-cols-3 xl:gap-x-8">
+            <% @days.each do |day| %>
+              <a href="/<%= day.id %>" data-product-id="<%= day.date.strftime("%Y-%m-%d") %>">
+                <li class="overflow-hidden rounded-xl border border-gray-200 hover:bg-indigo-100 transition-colors duration-200 ease-in-out">
+                  <div class="flex items-center gap-x-4 border-b border-gray-900/5 bg-gray-50 p-6">
+                    <img src="<%= url_for(day.primary_product.main_image) %>" alt="Tuple" class="h-12 w-12 flex-none rounded-lg bg-white object-cover ring-1 ring-gray-900/10">
+                    <div class="text-sm font-medium leading-6 text-gray-900"><%= day.primary_product.title %></div>
+                  </div>
+                  <dl class="-my-3 divide-y divide-gray-100 px-6 py-4 text-sm leading-6">
+                    <div class="text-sm font-medium leading-6 text-gray-900 mt-3 mb-1"><%= day.date.strftime("%A, %B %d") %></div>
+                    <div class="flex justify-between gap-x-4 py-3">
+                      <dt class="text-gray-500"><%= day.primary_product.description.truncate(150) %></dt>
+                    </div>
+                    <div class="flex justify-between gap-x-4 py-3">
+                      <dd class="flex items-start gap-x-2">
+                        <% day.primary_product.tags.each do |tag| %>
+                          <div class="rounded-md py-1 px-2 text-xs font-medium ring-1 ring-inset text-green-700 bg-green-50 ring-green-600/10"><%= tag %></div>
+                        <% end %>
+                      </dd>
+                    </div>
+                  </dl>
+                </li>
+              </a>
+            <% end %>
+          </ul>
+        </ul>
+      </div>
+      <div class="mt-10 flex items-start justify-start">
+        <a href="<%= user_root_path %>" class="ml-4 text-sm font-semibold leading-6 text-indigo-600">
+          <span aria-hidden="true">&larr;</span>
+          Back to home
+        </a>
       </div>
     </div>
-    <ol class="mt-4 divide-y divide-gray-100 text-sm leading-6 lg:col-span-7 xl:col-span-8">
-      <% @days.each do |day| %>
-        <div class="pt-5 lg:col-start-3 lg:row-end-1">
-          <h2 class="sr-only">Summary</h2>
-          <div class="rounded-lg bg-gray-50 shadow-sm ring-1 ring-gray-900/5">
-            <div class="flex-auto pl-6 pt-6">
-              <dt class="text-sm font-semibold leading-6 text-gray-900"><%= day.date.strftime("%A, %B %d, %Y") %></dt>
-            </div>
-            <div class="row-span-full">
-              <% day.products.each do |product| %>
-                <div class="flex m-10">
-                  <%= image_tag url_for(product.main_image), class: "h-12 w-12 flex-none rounded-full bg-gray-50 mr-4" if product.main_image.attached? %>
-                  <div class="min-w-0">
-                    <p class="mt-1 truncate text-lg leading-5 text-gray-500"><%= product.title %></p>
-                    <p class="mt-1 truncate text-xs leading-5 text-gray-500"><%= product.description %></p>
-                    <div class="flex-none self-end px-6 pt-4">
-                      <% product.tags.each do |tag| %>
-                        <dd class="m-1 inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"><%= tag %></dd>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-              <div class="mt-1 border-t border-gray-900/5 px-6 py-6 flex justify-end">
-                <a href="/checkout/slots/<%= day.date.strftime('%Y-%m-%d') %>" class="flex items-center rounded-full p-2 text-gray-500 hover:text-gray-600" id="menu-0-button" aria-expanded="false" aria-haspopup="true">
-                  <span class="sr-only">Open options</span>
-                  <button type="button" style="max-width: 2000px;" class="w-full rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                    <%= "Delivered in #{distance_of_time_in_words_to_now(day.date.beginning_of_day)}" %>
-                  </button>
-                </a>
-              </div>
-            </div>
-          </div>
-        <% end %>
-      </ol>
-    </div>
   </div>
-  <div class="mt-10 flex items-start justify-start">
-    <a href="<%= user_root_path %>" class="ml-4 text-sm font-semibold leading-6 text-indigo-600">
-      <span aria-hidden="true">&larr;</span>
-      Back to home
-    </a>
-  </div>
+  <script>
+    document.addEventListener("turbo:load", ()=>{
+      // Get all the elements with a day ID
+      const dayElements = document.querySelectorAll('[data-day-id]');
+      const productElements = document.querySelectorAll('[data-product-id]');
+
+      // Convert the NodeLists to arrays so we can use forEach
+      const daysArray = Array.from(dayElements);
+      const productsArray = Array.from(productElements);
+
+      // Function to handle mouseenter event
+      const handleMouseEnter = e => {
+        const targetDayId = e.target.getAttribute('data-day-id') || e.target.getAttribute('data-product-id');
+
+        daysArray.forEach(day => {
+          if (day.getAttribute('data-day-id') === targetDayId) {
+            day.classList.add('bg-indigo-100');
+            day.classList.remove('bg-white');
+            console.log('day adding: ',day)
+          }
+        });
+
+        productsArray.forEach(product => {
+          if (product.getAttribute('data-product-id') === targetDayId) {
+            product.classList.add('bg-indigo-100');
+            console.log('product adding: ',product)
+          }
+        });
+      };
+
+      // Function to handle mouseleave event
+      const handleMouseLeave = e => {
+        const targetDayId = e.target.getAttribute('data-day-id') || e.target.getAttribute('data-product-id');
+
+        daysArray.forEach(day => {
+          if (day.getAttribute('data-day-id') === targetDayId) {
+            day.classList.remove('bg-indigo-100');
+            day.classList.add('bg-white');
+          }
+        });
+
+        productsArray.forEach(product => {
+          if (product.getAttribute('data-product-id') === targetDayId) {
+            product.classList.remove('bg-indigo-100');
+          }
+        });
+      };
+
+      // Add the event listeners to the elements
+      daysArray.forEach(day => {
+        day.addEventListener('mouseenter', handleMouseEnter);
+        day.addEventListener('mouseleave', handleMouseLeave);
+      });
+
+      productsArray.forEach(product => {
+        product.addEventListener('mouseenter', handleMouseEnter);
+        product.addEventListener('mouseleave', handleMouseLeave);
+      });
+    })
+  </script>

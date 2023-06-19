@@ -1,9 +1,9 @@
 class CheckoutController < ApplicationController
-  before_action :set_day, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_admin, except: [:calendar, :meals]
-
+  before_action :set_day, only: [:slots]
+  # before_action :authenticate_admin, except: [:calendar, :meals]
+  
   def fetch_days(start_date, end_date, current_date = DateTime.now, fallback_days_count = 4)
-    days = Day.where(date: start_date..end_date)
+    days = Day.where(date: start_date..end_date, is_locked: false)
   
     if days.empty?
       if current_date.month == start_date.month && current_date.year == start_date.year
@@ -17,7 +17,7 @@ class CheckoutController < ApplicationController
         
       end
     else
-      @upcoming_meal_copy = "Meals scheduled for #{start_date.strftime('%B')}"
+      @upcoming_meal_copy = "Upcoming #{start_date.strftime('%B')} Meals"
     end
   
     days
@@ -37,7 +37,6 @@ class CheckoutController < ApplicationController
   end
 
   def slots
-
     @current_month = (params[:month] || Date.today.month).to_i
     @current_year = Date.today.year
     @days_in_month = Time.days_in_month(@current_month, @current_year)
@@ -59,19 +58,23 @@ class CheckoutController < ApplicationController
     date_range = (date - 1.days)..(date + 2.days)
     @day = Day.where(date: date_range).first
 
+    @first_slot_window, @second_slot_window = @day.slots.partition do |slot|
+      slot.delivery_start_time.hour == 22
+    end
+
   end
 
   def meals
-
+    @slot = Slot.find(params[:slot_id])
   end
 
-
-
   def set_day
-    @day = Day.find(params[:id])
-    # Uncomment to authorize with Pundit
+    param_date = params[:day].to_datetime
+    @day = Day.where("extract(year from date) = ? AND extract(month from date) = ? AND extract(day from date) = ?", param_date.year, param_date.month, param_date.day).first
+
+    redirect_to "/", alert: "Day has been locked, please select another." if @day.is_locked?
     # authorize @day
   rescue ActiveRecord::RecordNotFound
-    redirect_to days_path
+    redirect_to root_path
   end
 end

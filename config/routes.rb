@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   end
 
   get '/checkout/calendar', to: 'checkout#calendar'
-  get '/checkout/meals/:day', to: 'checkout#meals'
+  get '/checkout//slot/:slot_id/meals', to: 'checkout#meals'
   get '/checkout/slots/:day', to: 'checkout#slots'
   get '/checkout/order/:day/:order_id', to: 'checkout#order'
   resources :orders
