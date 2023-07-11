@@ -117,3 +117,9 @@ Need to install google creds on prod
 EDITOR="code --wait" rails credentials:edit --environment=development
 
 https://console.cloud.google.com/apis/credentials/oauthclient/<>.apps.googleusercontent.com?authuser=1&project=risses-dishes
+
+
+Deploying
+RAILS_ENV=production bundle exec rails assets:precompile
+
+git push origin main (tied into https://dashboard.heroku.com/apps/riss-dish/deploy/github)
