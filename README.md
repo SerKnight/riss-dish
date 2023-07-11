@@ -116,4 +116,4 @@ Need to install google creds on prod
 
 EDITOR="code --wait" rails credentials:edit --environment=development
 
-https://console.cloud.google.com/apis/credentials/oauthclient/361872358984-hv3u2tgbggcrk2g77tchimogqs7dtodr.apps.googleusercontent.com?authuser=1&project=risses-dishes
+https://console.cloud.google.com/apis/credentials/oauthclient/<>.apps.googleusercontent.com?authuser=1&project=risses-dishes
