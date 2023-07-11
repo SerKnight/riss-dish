@@ -3,7 +3,11 @@ class CheckoutController < ApplicationController
   # before_action :authenticate_admin, except: [:calendar, :meals]
   
   def fetch_days(start_date, end_date, current_date = DateTime.now, fallback_days_count = 4)
-    days = Day.where(date: start_date..end_date, is_locked: false)
+    if start_date >= Date.today
+      days = Day.where(date: start_date..end_date, is_locked: false).order(:date)
+    else
+      days = Day.where(date: Date.today..end_date, is_locked: false).order(:date)
+    end
   
     if days.empty?
       if current_date.month == start_date.month && current_date.year == start_date.year
@@ -37,11 +41,12 @@ class CheckoutController < ApplicationController
   def customize
     @day = Day.where("DATE(date) = ?", params[:date]).first
   
-    total_completed_orders = Order.where(slot_id: @day.slots.pluck(:id), completed: true).count
-    total_available_slots = @day.slots.sum(:available_additions)
+    total_completed_orders = Order.where(slot_id: @day.open_slots.pluck(:id), completed: true).count
+    total_available_slots = @day.open_slots.count
   
     if total_completed_orders < total_available_slots
-      @order = Order.create(slot: @day.slots.sample, user: current_user)
+      @order = Order.create(slot: @day.open_slots.first, user: current_user)
+      
     else
       # Handle the case when no slots are available
       # You can raise an error, redirect, or display an appropriate message to the user
@@ -64,14 +69,14 @@ class CheckoutController < ApplicationController
       )
     end
 
-    @order.update(tupperware_charge: params[:tupperware_charge], subtotal: params[:subtotal], tax: params[:tax], total: params[:total])
+    @order.update(music_charge: params[:music_charge], tupperware_charge: params[:tupperware_charge], subtotal: params[:subtotal], tax: params[:tax], total: params[:total])
 
-    redirect_to payment_path(date: params[:date], order_id: @order.id)
+    redirect_to delivery_path(date: params[:date], order_id: @order.id)
   end
 
-  def payment
+  def delivery
     @day = Day.where("DATE(date) = ?", params[:date]).first
-    @order = Order.create(slot: @day.slots.sample, user: current_user)
+    @order = Order.find(params[:order_id])
   end
 
   def set_day
@@ -91,6 +96,7 @@ class CheckoutController < ApplicationController
     product_params.each { |id, product| product.permit! }
     
     params.require(:checkout).permit(
+      :music_charge,
       :tupperware_charge,
       :subtotal,
       :tax,

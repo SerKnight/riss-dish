@@ -1,206 +1,158 @@
 <%= render partial: 'progress', locals: {
   steps: {
-    'Choose your Meal' => ['completed', checkout_calendar_path], 
-    'Customize' => ['active', "#"],
-    'Checkout' => ['disabled', "#"]
+    'Choose Date' => ['completed', checkout_calendar_path], 
+    'Customize Meal' => ['active', "#"],
+    'Delivery' => ['disabled', "#"]
   }}
 %>
 <div class="border border-gray-400 rounded p-10 m-20 my-8">
   <div>
     <div class="bg-white">
       <div class="mx-auto max-w-4xl px-4 py-5 sm:px-6">
-        <h2 class="text-lg font-bold mb-2">A note from the Chef</h2>
-        <p className="text-sm font-medium text-gray-900 mb-4">Hosting a dinner, or just a night in? There is currently a minimum of 2 dishes for an order. Please leave me any comments below!</p>
         <form class="mt-12" method="post" action="/checkout/<%= @day.date.strftime("%Y-%m-%d") %>/payment/<%= @order.id %>">
           <!-- End of Hidden Fields -->
           <div>
             <h2 class="sr-only">Items in your meal</h2>
             <ul role="list" class="divide-y divide-gray-200 border-b border-t border-gray-200">
-              <% @day.all_products.each do |product| %>
-                <!-- Hidden Field for Product Total -->
-                <input type="hidden" id="hiddenProductTotal-<%= product.id %>" name="product[<%= product.id %>][total]" value="">
-                <!-- End of Hidden Field -->
-                <li class="flex py-6 sm:py-10">
-                  <div class="flex-shrink-0">
-                    <%= image_tag url_for(product.main_image), alt: product.description, class: 'h-24 w-24 rounded-lg object-cover object-center sm:h-32 sm:w-32' %>
-                  </div>
-                  <div class="relative ml-4 flex flex-1 flex-col justify-between sm:ml-6">
-                    <div>
-                      <div class="flex justify-between sm:grid sm:grid-cols-2">
-                        <div class="pr-6">
-                          <h3 class="text-sm">
-                            <span class="font-medium text-gray-700 hover:text-gray-800">
-                              <%= product.title %>
-                            </span>
-                          </h3>
-                          <i class="text-sm">
-                            <span class="font-medium text-gray-500 hidden md:block hover:text-gray-600">
-                              <%= product.description %>
-                            </span>
-                          </i>
-                          <div class="mt-2">
-                            <% product.tags.each do |tag| %>
-                              <dd class="m-1 inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"><%= tag %></dd>
-                            <% end %>
-                          </div>
-                        </div>
-                        <p id="product-total-<%= product.id %>" class="text-right text-sm font-medium text-gray-900"></p>
-                      </div>
-                      <div class="mt-4">
-                        <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
-                        <textarea id="comments" name="product[<%= product.id %>][comments]" rows="3" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
-                      </div>
-                      <div class="mt-4 flex items-center sm:absolute sm:left-1/2 sm:top-0 sm:mt-0 sm:block">
-                        <label for="quantity-<%= product.id %>" class="sr-only">Quantity, <%= product.title %></label>
-                        <select class="quantity-selector" data-price="<%= product.price %>" id="quantity-<%= product.id %>" name="quantity-<%= product.id %>" class="block max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm">
-                          <% if @day.primary_product.id != product.id %>
-                            <option value="0" selected>0</option>
-                            <option value="1">1</option>
-                          <% end %>
-                          <% if @day.primary_product.id == product.id %>
-                            <option value="2" selected >2</option>
-                          <% else %>
-                            <option value="2" >2</option>
-                          <% end %>
-                          <option value="3">3</option>
-                          <option value="4">4</option>
-                          <option value="5">5</option>
-                          <option value="6">6</option>
-                          <option value="7">7</option>
-                          <option value="8">8</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+              <p class="text-lg font-bold mb-2">Entree</p>
+              <i className="text-sm font-medium text-gray-900 mb-4">Currently a minimum of 2, maximum 8 entrees per order</i>
+              <%= render partial: 'customize_product_list', locals: { day: @day, product: @day.primary_product } %>
+              <hr>
+              <p class="mt-10 text-lg font-bold mb-2">Add-Ons</p>
+              <% @day.backup_products.each do |product| %>
+                <%= render partial: 'customize_product_list', locals: { day: @day, product: product } %>
               <% end %>
             </ul>
             <div class="flex items-center justify-between my-10">
-              <span class="text-sm font-medium leading-6 text-gray-900 mr-10" id="availability-label">Reusable Tupperware</span>
-              <span class="text-sm text-gray-500 mr-10">For <strong>$2.50</strong>, you can opt for our reusable containers, earning you points within our restaurant network. Additionally, you'll find that they're great containers for home use, adding a touch of charm to your dining experience.</span>
+              <span class="text-sm font-medium leading-6 text-gray-900 mr-10" id="availability-label">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+                  <path fill-rule="evenodd" d="M19.952 1.651a.75.75 0 01.298.599V16.303a3 3 0 01-2.176 2.884l-1.32.377a2.553 2.553 0 11-1.403-4.909l2.311-.66a1.5 1.5 0 001.088-1.442V6.994l-9 2.572v9.737a3 3 0 01-2.176 2.884l-1.32.377a2.553 2.553 0 11-1.402-4.909l2.31-.66a1.5 1.5 0 001.088-1.442V9.017 5.25a.75.75 0 01.544-.721l10.5-3a.75.75 0 01.658.122z" clip-rule="evenodd" />
+                </svg>
+              </span>
+              <span class="text-sm text-gray-500 mr-10">For <strong>$1.00</strong> I will include a custom playlist to add a dash of charm to your dining experience</span>
             </span>
-            <input type="hidden" id="tupperwareCharge" name="tupperware_charge" value="0.00">
-            <button id="toggleButton" type="button" class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2" role="switch" aria-checked="false" aria-labelledby="availability-label" aria-describedby="availability-description">
+            <input type="hidden" id="mealMusic" name="music_charge" value="0.00">
+            <button id="toggleButton" type="button" class="bg-gray-200 relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-orange-600 focus:ring-offset-2" role="switch" aria-checked="false" aria-labelledby="availability-label" aria-describedby="availability-description">
               <span id="toggleButtonSpan" aria-hidden="true" class="translate-x-0 pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out"></span>
             </button>
           </div>
-        </div>
-        <!-- Order summary -->
-        <div class="mt-10">
-          <div class="rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:p-8">
-            <h2 class="sr-only">Order summary</h2>
-            <div class="flow-root">
-              <dl class="-my-4 divide-y divide-gray-200 text-sm">
-                <div class="flex items-center justify-between py-4">
+          <!-- Order summary -->
+          <div class="mt-10">
+            <div class="rounded-lg bg-gray-50 px-4 py-6 sm:p-6 lg:p-8">
+              <h2 class="sr-only">Order summary</h2>
+              <div class="flow-root">
+                <dl class="-my-4 divide-y divide-gray-200 text-sm">
+                  <!-- <div class="flex items-center justify-between py-4">
                   <dt class="text-gray-600">Subtotal</dt>
                   <dd id="subtotal" class="font-medium text-gray-900"></dd>
                 </div>
                 <div class="flex items-center justify-between py-4">
                   <dt class="text-gray-600">Tax</dt>
                   <dd id="tax" class="font-medium text-gray-900"></dd>
-                </div>
-                <div class="flex items-center justify-between py-4">
-                  <dt class="text-base font-medium text-gray-900">Total</dt>
-                  <dd id="total" class="text-base font-medium text-gray-900"></dd>
-                </div>
-              </dl>
+                </div> -->
+                  <div class="flex items-center justify-between py-4">
+                    <dt class="text-base font-medium text-gray-900">Total</dt>
+                    <dd id="total" class="text-base font-medium text-gray-900"></dd>
+                  </div>
+                </dl>
+              </div>
             </div>
-          </div>
-          <!-- Hidden form fields for the server -->
-          <input type="hidden" name="subtotal" id="hiddenSubtotal">
-          <input type="hidden" name="tax" id="hiddenTax">
-          <input type="hidden" name="total" id="hiddenTotal">
-          <% @day.all_products.each do |product| %>
-            <input type="hidden" name="product-total-<%= product.id %>" id="hiddenProductTotal<%= product.id %>">
-          <% end %>
-          <div class="mt-10">
+            <!-- Hidden form fields for the server -->
+            <input type="hidden" name="subtotal" id="hiddenSubtotal">
+            <input type="hidden" name="tax" id="hiddenTax">
+            <input type="hidden" name="total" id="hiddenTotal">
+            <input type="hidden" name="product-total-<%= @day.main_product.id %>" id="hiddenProductTotal<%= @day.main_product.id %>">
+            <% @day.backup_products.each do |product| %>
+              <input type="hidden" name="product-total-<%= product.id %>" id="hiddenProductTotal<%= product.id %>">
+            <% end %>
             <div class="mt-10">
-              <%= submit_tag "Order for #{@day.date.strftime('%A, %B %d')}", class: "cursor-pointer w-full rounded-md border border-transparent bg-indigo-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:ring-offset-gray-50" %>
+              <div class="mt-10">
+                <%= submit_tag "Continue to delivery", class: "cursor-pointer w-full rounded-md border border-transparent bg-orange-600 px-4 py-3 text-base font-medium text-white shadow-sm hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 focus:ring-offset-gray-50" %>
+              </div>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
-<div class="mt-10 flex items-start justify-start">
-  <a href="<%= user_root_path %>" class="ml-4 text-sm font-semibold leading-6 text-indigo-600">
-    <span aria-hidden="true">&larr;</span>
-    Back to home
-  </a>
-</div>
-<script>
-  document.addEventListener("turbo:load", ()=>{
-    document.getElementById('toggleButton').addEventListener('click', function() {
-    var button = document.getElementById('toggleButton');
-    var buttonSpan = document.getElementById('toggleButtonSpan');
-    var tupperwareCharge = document.getElementById('tupperwareCharge');
+  <div class="mt-10 flex items-start justify-start">
+    <a href="<%= user_root_path %>" class="ml-4 text-sm font-semibold leading-6 text-orange-600">
+      <span aria-hidden="true">&larr;</span>
+      Back to home
+    </a>
+  </div>
+  <script>
+    document.addEventListener("turbo:load", ()=>{
+      document.getElementById('toggleButton').addEventListener('click', function() {
+      var button = document.getElementById('toggleButton');
+      var buttonSpan = document.getElementById('toggleButtonSpan');
+      var mealMusic = document.getElementById('mealMusic');
 
-    if (button.classList.contains('bg-indigo-600')) {
-      button.classList.remove('bg-indigo-600');
-      button.classList.add('bg-gray-200');
-      buttonSpan.classList.remove('translate-x-5');
-      buttonSpan.classList.add('translate-x-0');
-      button.setAttribute('aria-checked', 'false');
-      tupperwareCharge.value = '0.00'; // Reset the charge to 0.00 when button is toggled off
-    } else {
-      button.classList.remove('bg-gray-200');
-      button.classList.add('bg-indigo-600');
-      buttonSpan.classList.remove('translate-x-0');
-      buttonSpan.classList.add('translate-x-5');
-      button.setAttribute('aria-checked', 'true');
-      tupperwareCharge.value = '2.50'; // Set the charge to 2.50 when button is toggled on
-    }})
+      if (button.classList.contains('bg-orange-600')) {
+        button.classList.remove('bg-orange-600');
+        button.classList.add('bg-gray-200');
+        buttonSpan.classList.remove('translate-x-5');
+        buttonSpan.classList.add('translate-x-0');
+        button.setAttribute('aria-checked', 'false');
+        mealMusic.value = '0.00'; // Reset the charge to 0.00 when button is toggled off
+      } else {
+        button.classList.remove('bg-gray-200');
+        button.classList.add('bg-orange-600');
+        buttonSpan.classList.remove('translate-x-0');
+        buttonSpan.classList.add('translate-x-5');
+        button.setAttribute('aria-checked', 'true');
+        mealMusic.value = '1.00'; // Set the charge to 2.50 when button is toggled on
+      }})
 
-     var baseTaxRate = 0.08; // Tax rate
-    var tupperwareCost = 2.50; // Tupperware cost
+       var baseTaxRate = 0.08; // Tax rate
+      var mealMusicCost = 1.00; // Tupperware cost
 
-    // Function to calculate and update total
-    function updateTotal() {
-      var subtotal = 0;
+      // Function to calculate and update total
+      function updateTotal() {
+        var subtotal = 0;
 
-      // Add up all the product totals
-      document.querySelectorAll('.quantity-selector').forEach(function(quantitySelector) {
-        var quantity = quantitySelector.value;
-        var price = quantitySelector.getAttribute('data-price');
-        var productTotal = quantity * price;
-        subtotal += productTotal;
+        // Add up all the product totals
+        document.querySelectorAll('.quantity-selector').forEach(function(quantitySelector) {
+          var quantity = quantitySelector.value;
+          var price = quantitySelector.getAttribute('data-price');
+          var productTotal = quantity * price;
+          subtotal += productTotal;
 
-        // Update product total on page and in hidden form field
-        var productId = quantitySelector.getAttribute('id').replace('quantity-', '');
-        document.getElementById('product-total-' + productId).innerText = `$${price} * ${quantity} = $${productTotal.toFixed(2)}`;;
-        document.getElementsByName(`product[${productId}][total]`)[0].value = productTotal.toFixed(2);
-      });
+          // Update product total on page and in hidden form field
+          var productId = quantitySelector.getAttribute('id').replace('quantity-', '');
+          document.getElementById('product-total-' + productId).innerText = `$${price} * ${quantity} = $${productTotal.toFixed(2)}`;;
+          document.getElementsByName(`product[${productId}][total]`)[0].value = productTotal.toFixed(2);
+        });
 
-      // Calculate tax
-      var tax = subtotal * baseTaxRate;
+        // Calculate tax
+        var tax = subtotal * baseTaxRate;
 
-      // Add tupperware cost if selected
-      if (document.getElementById('toggleButton').getAttribute('aria-checked') === 'true') {
-        subtotal += tupperwareCost;
+        // Add tupperware cost if selected
+        if (document.getElementById('toggleButton').getAttribute('aria-checked') === 'true') {
+          subtotal += mealMusicCost;
+        }
+
+        // Calculate total
+        var total = subtotal + tax;
+
+        // Update totals on page and in hidden form fields
+        document.getElementById('subtotal').innerText = subtotal.toFixed(2);
+        document.getElementById('tax').innerText = tax.toFixed(2);
+        document.getElementById('total').innerText = total.toFixed(2);
+        document.getElementById('hiddenSubtotal').value = subtotal.toFixed(2);
+        document.getElementById('hiddenTax').value = tax.toFixed(2);
+        document.getElementById('hiddenTotal').value = total.toFixed(2);
       }
 
-      // Calculate total
-      var total = subtotal + tax;
+      // Calculate and update total whenever quantity is changed
+      document.querySelectorAll('.quantity-selector').forEach(function(quantitySelector) {
+        quantitySelector.addEventListener('change', updateTotal);
+      });
 
-      // Update totals on page and in hidden form fields
-      document.getElementById('subtotal').innerText = subtotal.toFixed(2);
-      document.getElementById('tax').innerText = tax.toFixed(2);
-      document.getElementById('total').innerText = total.toFixed(2);
-      document.getElementById('hiddenSubtotal').value = subtotal.toFixed(2);
-      document.getElementById('hiddenTax').value = tax.toFixed(2);
-      document.getElementById('hiddenTotal').value = total.toFixed(2);
-    }
+      // Calculate and update total whenever tupperware option is toggled
+      document.getElementById('toggleButton').addEventListener('click', updateTotal);
 
-    // Calculate and update total whenever quantity is changed
-    document.querySelectorAll('.quantity-selector').forEach(function(quantitySelector) {
-      quantitySelector.addEventListener('change', updateTotal);
+      // Calculate and update total on page load
+      updateTotal();
     });
-
-    // Calculate and update total whenever tupperware option is toggled
-    document.getElementById('toggleButton').addEventListener('click', updateTotal);
-
-    // Calculate and update total on page load
-    updateTotal();
-  });
-</script>
+  </script>

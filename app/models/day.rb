@@ -31,9 +31,20 @@ class Day < ApplicationRecord
 
   after_save :create_default_slots
 
-  def all_products
-    Product.where(id: self.primary_product_id).or(Product.where(id: self.product_ids))
+  def main_product
+    Product.find(self.primary_product_id)
   end
+
+  def backup_products
+    Product.where(id: self.product_ids)
+  end
+
+  def open_slots
+    all_slots = self.slots # Get all slots for the day
+    completed_order_slots = Order.where(slot_id: all_slots.pluck(:id)).where(completed: true) # Get slots of completed orders
+    all_slots.where.not(id: completed_order_slots.pluck(:slot_id)) # Return the slots that have not been attached to a completed order
+  end
+  
 
   private
 

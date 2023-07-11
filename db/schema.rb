@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_19_183910) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_223437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -213,6 +213,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_19_183910) do
     t.decimal "tax", precision: 8, scale: 2
     t.decimal "total", precision: 8, scale: 2
     t.boolean "completed", default: false
+    t.decimal "music_charge", precision: 8, scale: 2
     t.index ["slot_id"], name: "index_orders_on_slot_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end

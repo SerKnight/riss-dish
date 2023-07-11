@@ -16,148 +16,163 @@
         <div class="aspect-[801/1036] w-[50.0625rem] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30" style="clip-path: polygon(63.1% 29.5%, 100% 17.1%, 76.6% 3%, 48.4% 0%, 44.6% 4.7%, 54.5% 25.3%, 59.8% 49%, 55.2% 57.8%, 44.4% 57.2%, 27.8% 47.9%, 35.1% 81.5%, 0% 97.7%, 39.2% 100%, 35.2% 81.4%, 97.2% 52.8%, 63.1% 29.5%)"></div>
       </div>
       <div class="overflow-hidden">
-        <div class="mx-auto max-w-7xl px-6 pb-32 pt-36 sm:pt-60 lg:px-8 lg:pt-10">
+        <div class="mx-auto max-w-7xl px-6 pb-5 pt-20 sm:pt-30 lg:px-8 lg:pt-10">
           <div class="mx-auto max-w-2xl gap-x-14 lg:mx-0 lg:flex lg:max-w-none lg:items-center">
             <div class="w-full max-w-xl lg:shrink-0 xl:max-w-2xl">
               <h1 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">Home cooked meals, delivered to your door.</h1>
               <p class="relative mt-6 text-lg leading-8 text-gray-600 sm:max-w-md lg:max-w-none">I believe that food is not just about nourishment but also about creating a sense of community and connection.</p>
               <div class="mt-10 flex items-center gap-x-6">
-                <a href="/checkout/calendar" class="rounded-md bg-cyan-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Order a meal</a>
-                <a href="/about" class="text-sm font-semibold leading-6 text-gray-900">About Me <span aria-hidden="true">→</span></a>
-              </div>
-            </div>
-            <div class="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
-              <div class="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
-                <div class="relative">
-                  <img src="https://riss-dish.static.app/riss-dish-coffee.png" alt="local-ingredients" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg">
-                  <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+                <a href="/checkout/calendar" class="inline-flex items-center justify-center rounded-md bg-orange-600 px-6 py-3 text-xl font-semibold text-white transition-all duration-200 ease-in-out shadow-sm hover:bg-orange-500 hover:text-teal-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange-600">
+                  <span class="mr-2">See the menu</span>
+                  <a href="/about" class="text-md font-semibold leading-6 text-gray-900 hover:text-teal-800">About Me <span aria-hidden="true">→</span></a>
                 </div>
               </div>
-              <div class="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
-                <div class="relative">
-                  <img src="https://riss-dish.static.app/kale-salad.jpeg" alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg">
-                  <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+              <div class="mt-14 flex justify-end gap-8 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0">
+                <div class="ml-auto w-44 flex-none space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
+                  <div class="relative">
+                    <%= image_tag("riss-dish-coffee.png", alt: "local-ingredients", class: "aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg") %>
+                    <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+                  </div>
                 </div>
-                <div class="relative">
-                  <img src="https://riss-dish.static.app/lobster-salad.jpeg" alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg">
-                  <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+                <div class="mr-auto w-44 flex-none space-y-8 sm:mr-0 sm:pt-52 lg:pt-36">
+                  <div class="relative">
+                    <%= image_tag("kale-salad.jpeg", class: "aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg") %>
+                    <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+                  </div>
+                  <div class="relative">
+                    <%= image_tag("lobster-salad.jpeg", class: "aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg") %>
+                    <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+                  </div>
                 </div>
-              </div>
-              <div class="w-44 flex-none space-y-8 pt-32 sm:pt-0">
-                <div class="relative">
-                  <img src="https://riss-dish.static.app/garden.jpeg" alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg">
-                  <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
-                </div>
-                <div class="relative">
-                  <img src="https://riss-dish.static.app/tuna.jpeg" alt="" class="aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg">
-                  <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+                <div class="w-44 flex-none space-y-8 pt-32 sm:pt-0">
+                  <div class="relative">
+                    <%= image_tag("garden.jpeg", class: "aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg") %>
+                    <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+                  </div>
+                  <div class="relative">
+                    <%= image_tag("tuna.jpeg", class: "aspect-[2/3] w-full rounded-xl bg-gray-900/5 object-cover shadow-lg") %>
+                    <div class="pointer-events-none absolute inset-0 rounded-xl ring-1 ring-inset ring-gray-900/10"></div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-</div>
-<div class="overflow-hidden bg-white py-24 sm:py-32">
-  <div class="mx-auto max-w-7xl md:px-6 lg:px-8">
-    <div class="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start">
-      <div class="px-6 lg:px-0 lg:pr-4 lg:pt-4">
-        <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
-          <dl class="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
-            <div class="relative pl-9">
-              <dt class="inline font-semibold text-gray-900">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute left-1 top-1 h-5 w-5 text-indigo-600">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
-                </svg>
-                Nourish and Connect
-              </dt>
-              <hr class='pt-2'>
-              <dd class="inline">Experience the power of food in its purest form - a home cooked meal from your neighborhood chef! Host a dinner party or just connect with your family over a classic dish.</dd>
-            </div>
-            <div class="relative pl-9">
-              <dt class="inline font-semibold text-gray-900">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute left-1 top-1 h-5 w-5 text-indigo-600">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
-                </svg>
-                A Taste of Homemade Comfort
-              </dt>
-              <hr class='pt-2'>
-              <dd class="inline">I know life gets busy and preparing wholesome meals can be challenging. I deliver comfort and flavor to your doorstep without the excess fees or packaging waste.</dd>
-            </div>
-            <div class="relative pl-9">
-              <dt class="inline font-semibold text-gray-900">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute left-1 top-1 h-5 w-5 text-indigo-600">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z" />
-                </svg>
-                Local, Fresh, and Organic
-              </dt>
-              <hr class='pt-2'>
-              <dd class="inline">I prioritize local, fresh, and organic ingredients in every dish. My menu reflects my respect for quality, sustainability, and seasonality.</dd>
-            </div>
-          </dl>
-        </div>
-      </div>
-      <div class="sm:px-6 lg:px-0">
-        <div class="relative isolate overflow-hidden bg-indigo-500 px-6 pt-8 sm:mx-auto sm:max-w-2xl sm:rounded-3xl sm:pl-16 sm:pr-0 sm:pt-16 lg:mx-0 lg:max-w-none">
-          <div class="absolute -inset-y-px -left-3 -z-10 w-full origin-bottom-left skew-x-[-30deg] bg-indigo-100 opacity-20 ring-1 ring-inset ring-white" aria-hidden="true"></div>
-          <div class="mx-auto max-w-2xl sm:mx-0 sm:max-w-none">
-            <img src="https://riss-dish.static.app/riss-dish.jpeg" alt="Product screenshot"  class="-mb-12 max-w-none rounded-tl-xl bg-gray-800 ring-1 ring-white/10">
+    </main>
+  </div>
+  <div class="overflow-hidden bg-white py-24 sm:py-32">
+    <div class="mx-auto max-w-7xl md:px-6 lg:px-8">
+      <div class="grid grid-cols-1 gap-x-8 gap-y-16 sm:gap-y-20 lg:grid-cols-2 lg:items-start">
+        <div class="px-6 lg:px-0 lg:pr-4 lg:pt-4">
+          <div class="mx-auto max-w-2xl lg:mx-0 lg:max-w-lg">
+            <dl class="mt-10 max-w-xl space-y-8 text-base leading-7 text-gray-600 lg:max-w-none">
+              <div class="relative pl-9">
+                <dt class="inline font-semibold text-gray-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute left-1 top-1 h-5 w-5 text-orange-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" />
+                  </svg>
+                  Nourish and Connect
+                </dt>
+                <hr class='pt-2'>
+                <dd class="inline">Experience the power of food in its purest form - a home cooked meal from your neighborhood chef! Host a dinner party or just connect with your family over a classic dish.</dd>
+              </div>
+              <div class="relative pl-9">
+                <dt class="inline font-semibold text-gray-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute left-1 top-1 h-5 w-5 text-orange-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" />
+                  </svg>
+                  A Taste of Homemade Comfort
+                </dt>
+                <hr class='pt-2'>
+                <dd class="inline">I know life gets busy and preparing wholesome meals can be challenging. I deliver comfort and flavor to your doorstep without the excess fees or packaging waste.</dd>
+              </div>
+              <div class="relative pl-9">
+                <dt class="inline font-semibold text-gray-900">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute left-1 top-1 h-5 w-5 text-orange-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.75h-.152c-3.196 0-6.1-1.249-8.25-3.286zm0 13.036h.008v.008H12v-.008z" />
+                  </svg>
+                  Local, Fresh, and Organic
+                </dt>
+                <hr class='pt-2'>
+                <dd class="inline">I prioritize local, fresh, and organic ingredients in every dish. My menu reflects my respect for quality, sustainability, and seasonality.</dd>
+              </div>
+            </dl>
           </div>
-          <div class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/10 sm:rounded-3xl" aria-hidden="true"></div>
+        </div>
+        <div class="sm:px-6 lg:px-0">
+          <div class="relative isolate overflow-hidden bg-orange-500 px-6 pt-8 sm:mx-auto sm:max-w-2xl sm:rounded-3xl sm:pl-16 sm:pr-0 sm:pt-16 lg:mx-0 lg:max-w-none">
+            <div class="absolute -inset-y-px -left-3 -z-10 w-full origin-bottom-left skew-x-[-30deg] bg-orange-100 opacity-20 ring-1 ring-inset ring-white" aria-hidden="true"></div>
+            <div class="mx-auto max-w-2xl sm:mx-0 sm:max-w-none">
+              <%= image_tag("riss-dish.jpeg", alt: "Product screenshot", class: "-mb-12 max-w-none rounded-tl-xl bg-gray-800 ring-1 ring-white/10") %>
+            </div>
+            <div class="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/10 sm:rounded-3xl" aria-hidden="true"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<div class="bg-white py-24 sm:py-32">
-  <div class="mx-auto max-w-7xl px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl text-center">
-      <h2 class="text-3xl font-bold tracking-tight text-center sm:text-4xl">Favorites from the Kitchen</h2>
-      <p class="mt-2 text-lg leading-8 text-center">Some of my all time favs you are sure to see on the menu.</p>
-    </div>
-    <div class="mx-auto mt-16 grid max-w-2xl auto-rows-fr grid-cols-1 gap-8 sm:mt-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-      <article class="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
-        <img src="https://riss-dish.static.app/GF-cookies.jpeg" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
-        <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-        <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
-        <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6">
-          <h4 class="text-white">
-            <a href="/checkout/calendar" class="text-white hover:text-white focus:text-white active:text-white">
-              <span class="absolute inset-0"></span>
-              Chocolate chip cookies
-            </a>
-          </h4>
-        </article>
-        <article class="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
-          <img src="https://riss-dish.static.app/chicken-marbella.jpeg" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
-          <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-          <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
-          <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6">
-            <h4 class="text-white">
-              <a href="/checkout/calendar" class="text-white hover:text-white focus:text-white active:text-white">
-                <span class="absolute inset-0"></span>
-                Chicken Marbella
-              </a>
-            </h4>
-          </article>
-          <article class="relative isolate flex flex-col justify-end overflow-hidden rounded-2xl bg-gray-900 px-8 pb-8 pt-80 sm:pt-48 lg:pt-80">
-            <img src="https://riss-dish.static.app/ramen.jpeg" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
-            <div class="absolute inset-0 -z-10 bg-gradient-to-t from-gray-900 via-gray-900/40"></div>
-            <div class="absolute inset-0 -z-10 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
-            <div class="flex flex-wrap items-center gap-y-1 overflow-hidden text-sm leading-6">
-              <h4 class="text-white">
-                <a href="/checkout/calendar" class="text-white hover:text-white focus:text-white active:text-white">
+  <div class="pt-20 pb-20 flex items-center justify-center">
+    <a href="/checkout/calendar" class="inline-flex items-center justify-center rounded-md bg-orange-600 px-6 py-3 text-xl font-semibold text-white transition-all duration-200 ease-in-out shadow-sm hover:bg-orange-500 hover:text-teal-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange-600">
+      <span class="mr-2">Order a meal</span>
+      <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+      </svg>
+    </a>
+  </div>
+  <div class="bg-white pb-20 pt-20">
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">Previous Meals</h2>
+        <p class="mt-2 text-lg leading-8 text-gray-600">Recipes and Musings from weeks past</p>
+      </div>
+      <div class="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-20 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        <% Product.all.each do |product| %>
+          <article class="flex flex-col items-start justify-between">
+            <div class="relative w-full">
+              <%= image_tag url_for(product.main_image), class: "aspect-[16/9] w-full rounded-2xl bg-gray-100 object-cover sm:aspect-[2/1] lg:aspect-[3/2]" if product.main_image.attached? %>
+              <div class="absolute inset-0 rounded-2xl ring-1 ring-inset ring-gray-900/10"></div>
+            </div>
+            <div class="max-w-xl">
+              <div class="mt-8 flex items-left text-xs">
+                <time datetime="2020-03-16" class="text-gray-500"></time>
+                <div class="flex-none self-end">
+                  <% product.tags.each do |tag| %>
+                    <dd class="text-left m-1 inline-flex items-center rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20"><%= tag %></dd>
+                  <% end %>
+                </div>
+              </div>
+              <div class="group relative">
+                <h3 class="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
                   <span class="absolute inset-0"></span>
-                  Ramen
-                </a>
-              </h4>
-            </article>
-          </div>
-        </div>
+                  <%= product.title %>
+                </h3>
+                <p class="mt-5 line-clamp-3 text-sm leading-6 text-gray-600"><%= product.description.truncate(150) %></p>
+              </div>
+              <!-- <div class="relative mt-8 flex items-center gap-x-4">
+              <img src="riss-dish.jpeg" alt="" class="h-10 w-10 rounded-full bg-gray-100">
+              <div class="text-sm leading-6">
+                <p class="font-semibold text-gray-900">
+                  <a href="#">
+                    <span class="absolute inset-0"></span>
+                    Karissa Layden
+                  </a>
+                </p>
+                <p class="text-gray-600">Head Chef</p>
+              </div>
+            </div> -->
+            </div>
+          </article>
+        <% end %>
       </div>
     </div>
   </div>
-</div>
+  <div class="pt-20 pb-20 flex items-center justify-center">
+    <a href="/checkout/calendar" class="inline-flex items-center justify-center rounded-md bg-orange-600 px-6 py-3 text-xl font-semibold text-white transition-all duration-200 ease-in-out shadow-sm hover:bg-orange-500 hover:text-teal-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-orange-600">
+      <span class="mr-2">Order a meal</span>
+      <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+      </svg>
+    </a>
+  </div>

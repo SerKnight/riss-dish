@@ -17,7 +17,8 @@ Rails.application.routes.draw do
   get '/checkout/calendar', to: 'checkout#calendar'
   get '/checkout/:date/customize', to: 'checkout#customize'
   post '/checkout/:date/payment/:order_id', to: 'checkout#process_customization'
-  get '/checkout/:date/:order_id/payment', to: 'checkout#payment', as: 'payment'
+  
+  get '/checkout/:date/:order_id/delivery', to: 'checkout#delivery', as: 'delivery'
   get '/checkout/:date/:order_id/confirmation', to: 'checkout#order_confirmation'
   resources :orders
 

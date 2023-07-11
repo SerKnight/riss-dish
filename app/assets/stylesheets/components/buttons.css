@@ -36,19 +36,19 @@ button[disabled]        .when-enabled { display: none; }
   }
 
   .btn-primary {
-    @apply bg-blue-600 text-white focus:ring-blue-500;
+    @apply bg-orange-600 text-white focus:ring-orange-500;
 
     &:hover,
     &:focus {
-      @apply bg-blue-500 text-white;
+      @apply bg-orange-500 text-white;
     }
 
     &.btn-outline {
-      @apply bg-transparent border border-blue-500 text-blue-500 shadow-none;
+      @apply bg-transparent border border-orange-500 text-orange-500 shadow-none;
 
       &:hover,
       &:focus {
-        @apply bg-blue-500 text-white;
+        @apply bg-orange-500 text-white;
       }
     }
   }

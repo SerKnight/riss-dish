@@ -30,7 +30,7 @@
   <div>F</div>
   <div>S</div>
   <!--  // black select = bg-gray-900 font-semibold text-white -->
-  <!--  // has days = text-indigo-600 // font-semibold-->
+  <!--  // has days = text-orange-600 // font-semibold-->
 </div>
 <div class="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
   <!-- <% starting_weekday = @start_date.beginning_of_month.wday %> 
@@ -61,8 +61,8 @@
       </button>
     <% elsif day && day.primary_product %>
       <!-- Day with product(s) -->
-      <a href="/checkout/slots/<%= day.date.strftime("%Y-%m-%d") %>" class="text-indigo-600 bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
-        <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-indigo-900 font-semibold text-white">
+      <a href="/checkout/slots/<%= day.date.strftime("%Y-%m-%d") %>" class="text-orange-600 bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+        <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-orange-900 font-semibold text-white">
           <%= date.day %>
         </time>
       </a>

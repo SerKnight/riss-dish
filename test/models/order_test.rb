@@ -4,6 +4,7 @@
 #
 #  id                :bigint           not null, primary key
 #  completed         :boolean          default(FALSE)
+#  music_charge      :decimal(8, 2)
 #  subtotal          :decimal(8, 2)
 #  tax               :decimal(8, 2)
 #  total             :decimal(8, 2)
