@@ -1,0 +1,5 @@
+<div id="<%= dom_id(product, :index) %>">
+  <%= turbo_stream_from product %>
+  <%= render product %>
+  <%= link_to "View", product, class: "btn btn-white" %>
+</div>

@@ -1,5 +1,11 @@
 # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 Rails.application.routes.draw do
+  resources :order_items
+  resources :orders
+  resources :slots
+  resources :day_products
+  resources :days
+  resources :products
   draw :turbo
 
   # Jumpstart views
@@ -8,8 +14,23 @@ Rails.application.routes.draw do
     mount LetterOpenerWeb::Engine, at: "/letter_opener"
   end
 
+  get '/checkout/calendar', to: 'checkout#calendar'
+  get '/checkout/:date/customize', to: 'checkout#customize'
+  post '/checkout/:date/payment/:order_id', to: 'checkout#process_customization'
+  
+  get '/checkout/:date/:order_id/delivery', to: 'checkout#delivery', as: 'delivery'
+  get '/checkout/:date/:order_id/confirmation', to: 'checkout#order_confirmation'
+  resources :orders
+
   # Administrate
   authenticated :user, lambda { |u| u.admin? } do
+    # riss dish specific admin mgmnt
+    resources :products
+    resources :orders
+    resources :days
+    resources :slots
+    resources :accounts
+
     namespace :admin do
       if defined?(Sidekiq)
         require "sidekiq/web"
@@ -20,16 +41,15 @@ Rails.application.routes.draw do
       resources :users do
         resource :impersonate, module: :user
       end
-      resources :connected_accounts
-      resources :accounts
-      resources :account_users
+      # resources :connected_accounts
+      # resources :account_users
       resources :plans
-      namespace :pay do
-        resources :customers
-        resources :charges
-        resources :payment_methods
-        resources :subscriptions
-      end
+      # namespace :pay do
+      #   resources :customers
+      #   resources :charges
+      #   resources :payment_methods
+      #   resources :subscriptions
+      # end
 
       root to: "dashboard#show"
     end

@@ -110,3 +110,10 @@ If you'd like to use the fullstaq-ruby or other Dockerfile you can specify them 
 ```bash
 docker build -f ./Dockerfile.fullstaq-ruby .
 ```
+
+
+Need to install google creds on prod
+
+EDITOR="code --wait" rails credentials:edit --environment=development
+
+https://console.cloud.google.com/apis/credentials/oauthclient/<>.apps.googleusercontent.com?authuser=1&project=risses-dishes

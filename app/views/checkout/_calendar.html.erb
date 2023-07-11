@@ -1,0 +1,58 @@
+<div class="flex items-center text-gray-900">
+  <div class="flex-auto text-sm font-semibold"><%= @day.date.strftime("%A, %B %d, %Y") %></div>
+</div>
+<div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
+  <div>S</div>
+  <div>M</div>
+  <div>T</div>
+  <div>W</div>
+  <div>T</div>
+  <div>F</div>
+  <div>S</div>
+  <!--  // black select = bg-gray-900 font-semibold text-white -->
+  <!--  // has days = text-orange-600 // font-semibold-->
+</div>
+<div class="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
+  <!-- <% starting_weekday = @start_date.beginning_of_month.wday %> 
+      <% day_names = Date::DAYNAMES.rotate(starting_weekday) %>-->
+  <!-- Suppose 'starting_weekday' is the day of the week on which your calendar starts (0 = Sunday, 1 = Monday, ..., 6 = Saturday). -->
+  <!-- Suppose 'first_day_of_month' is the weekday of the first day of the month you're displaying (again, 0 = Sunday, 1 = Monday, ..., 6 = Saturday). -->
+  <% starting_weekday = 0 # Sunday, for example %>
+  <% first_day_of_month = @start_date.beginning_of_day.wday # the weekday of the first day of the month %>
+  <!-- The number of blank days needed is the difference between these two values, or 0 if the first day of the month is earlier in the week than the start of the calendar week. -->
+  <% padding = [0, (first_day_of_month - starting_weekday)].max %>
+  <% padding.times do %>
+    <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+      <time datetime="" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">&nbsp;</time>
+    </button>
+  <% end %>
+  <% (@start_date..@end_date).each do |date| %>
+    <% cheeckout_day = @day.date.to_date %>
+    <% if date == cheeckout_day %>
+      <!-- Current Day -->
+      <button type="button" class="bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+        <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-900 font-semibold text-white">
+          <%= date.day %>
+        </time>
+      </button>
+    <% else %>
+      <button type="button" class="bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+        <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">
+          <%= date.day %>
+        </time>
+      </button>
+    <% end %>
+  <% end %>
+  <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+    <time datetime="2022-02-01" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">1</time>
+  </button>
+  <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+    <time datetime="2022-02-02" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">2</time>
+  </button>
+  <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+    <time datetime="2022-02-03" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">3</time>
+  </button>
+  <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+    <time datetime="2022-02-04" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">4</time>
+  </button>
+</div>

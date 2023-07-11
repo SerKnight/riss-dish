@@ -1,0 +1,6 @@
+<div id="<%= dom_id(order, :index) %>">
+  <%= turbo_stream_from order %>
+  <%= render order %>
+  <%= link_to "View", order, class: "btn btn-white" %>
+</div>
+

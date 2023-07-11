@@ -1,0 +1,89 @@
+<div class="flex items-center text-gray-900">
+  <% unless @current_month == 1 %>
+    <a href="/checkout/calendar?month=<%= @current_month - 1 %>">
+      <button type="button" class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
+        <span class="sr-only">Previous month</span>
+        <svg class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </a>
+  <% end %>
+  <div class="flex-auto text-sm font-semibold"><%= Date::MONTHNAMES[@current_month] %></div>
+  <% unless @current_month == 12 %>
+    <a href="/checkout/calendar?month=<%= @current_month + 1 %>">
+      <button type="button" class="-m-1.5 flex flex-none items-center justify-center p-1.5 text-gray-400 hover:text-gray-500">
+        <span class="sr-only">Next month</span>
+        <svg class="h-10 w-10" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+        </svg>
+      </button>
+    </a>
+  <% end %>
+</div>
+<div class="mt-6 grid grid-cols-7 text-xs leading-6 text-gray-500">
+  <div>S</div>
+  <div>M</div>
+  <div>T</div>
+  <div>W</div>
+  <div>T</div>
+  <div>F</div>
+  <div>S</div>
+  <!--  // black select = bg-gray-900 font-semibold text-white -->
+  <!--  // has days = text-orange-600 // font-semibold-->
+</div>
+<div class="isolate mt-2 grid grid-cols-7 gap-px rounded-lg bg-gray-200 text-sm shadow ring-1 ring-gray-200">
+  <!-- <% starting_weekday = @start_date.beginning_of_month.wday %> 
+  <% day_names = Date::DAYNAMES.rotate(starting_weekday) %>-->
+  <!-- Suppose 'starting_weekday' is the day of the week on which your calendar starts (0 = Sunday, 1 = Monday, ..., 6 = Saturday). -->
+  <!-- Suppose 'first_day_of_month' is the weekday of the first day of the month you're displaying (again, 0 = Sunday, 1 = Monday, ..., 6 = Saturday). -->
+  <% starting_weekday = 0 # Sunday, for example %>
+  <% first_day_of_month = @start_date.beginning_of_day.wday # the weekday of the first day of the month %>
+  <!-- The number of blank days needed is the difference between these two values, or 0 if the first day of the month is earlier in the week than the start of the calendar week. -->
+  <% padding = [0, (first_day_of_month - starting_weekday)].max %>
+  <% padding.times do %>
+    <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+      <time datetime="" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">&nbsp;</time>
+    </button>
+  <% end %>
+  <!-- Then your existing loop -->
+  <% (@start_date..@end_date).each do |date| %>
+    <!-- the rest of your loop -->
+  <% end %>
+  <% (@start_date..@end_date).each do |date| %>
+    <% day = @days.find { |d| d.date.to_date == date } %>
+    <% if date == Date.today %>
+      <!-- Current Day -->
+      <button type="button" class="bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+        <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-gray-900 font-semibold text-white">
+          <%= date.day %>
+        </time>
+      </button>
+    <% elsif day && day.primary_product %>
+      <!-- Day with product(s) -->
+      <a href="/checkout/slots/<%= day.date.strftime("%Y-%m-%d") %>" class="text-orange-600 bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+        <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full bg-orange-900 font-semibold text-white">
+          <%= date.day %>
+        </time>
+      </a>
+    <% else %>
+      <!-- Day without product(s) -->
+      <button type="button" class="bg-white py-1.5 text-gray-900 hover:bg-gray-100 focus:z-10">
+        <time datetime="<%= date.strftime("%Y-%m-%d") %>" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">
+          <%= date.day %>
+        </time>
+      </button>
+    <% end %>
+  <% end %>
+  <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+    <time datetime="2022-02-01" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">1</time>
+  </button>
+  <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+    <time datetime="2022-02-02" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">2</time>
+  </button>
+  <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+    <time datetime="2022-02-03" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">3</time>
+  </button>
+  <button type="button" class="bg-gray-50 py-1.5 text-gray-400 hover:bg-gray-100 focus:z-10">
+    <time datetime="2022-02-04" class="mx-auto flex h-7 w-7 items-center justify-center rounded-full">4</time>
+  </button>

@@ -13,7 +13,7 @@ class Turbo::Ios::PathConfigurationsController < ApplicationController
             ios_system_image_name: "house"
           },
           {
-            title: "What's New",
+            title: "New Dishes",
             path: announcements_path,
             ios_system_image_name: "megaphone"
           },

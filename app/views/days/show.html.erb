@@ -1,0 +1,17 @@
+<%= content_for :title, "Days ##{@day.id}" %>
+<%= turbo_stream_from @day %>
+
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="h3">
+      <%= link_to "Days", days_path, class: "text-black" %>
+      <span class="text-gray-400 font-light mx-2">\</span>
+      Day #<%= @day.id %>
+    </h1>
+    <%= link_to t("edit"), edit_day_path(@day), class: "btn btn-white" %>
+  </div>
+
+  <div class="p-8 bg-white rounded shadow">
+    <%= render @day %>
+  </div>
+</div>

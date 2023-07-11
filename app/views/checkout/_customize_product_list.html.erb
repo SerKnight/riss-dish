@@ -1,0 +1,56 @@
+<!-- Hidden Field for Product Total -->
+<input type="hidden" id="hiddenProductTotal-<%= product.id %>" name="product[<%= product.id %>][total]" value="">
+<!-- End of Hidden Field -->
+<li class="flex py-6 sm:py-10">
+  <div class="flex-shrink-0">
+    <%= image_tag url_for(product.main_image), alt: product.description, class: 'h-24 w-24 rounded-lg object-cover object-center sm:h-32 sm:w-32' %>
+  </div>
+  <div class="relative ml-4 flex flex-1 flex-col justify-between sm:ml-6">
+    <div>
+      <div class="flex justify-between sm:grid sm:grid-cols-2">
+        <div class="pr-6">
+          <h3 class="text-sm">
+            <span class="font-medium text-gray-700 hover:text-gray-800">
+              <%= product.title %>
+            </span>
+          </h3>
+          <i class="text-sm">
+            <span class="font-medium text-gray-500 hidden md:block hover:text-gray-600">
+              <%= product.description %>
+            </span>
+          </i>
+          <div class="mt-2">
+            <% product.tags.each do |tag| %>
+              <dd class="m-1 inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20"><%= tag %></dd>
+            <% end %>
+          </div>
+        </div>
+        <p id="product-total-<%= product.id %>" class="text-right text-sm font-medium text-gray-900"></p>
+      </div>
+      <div class="mt-4">
+        <label for="comments" class="block text-sm font-medium text-gray-700">Comments</label>
+        <textarea placeholder="" id="comments" name="product[<%= product.id %>][comments]" rows="3" class="shadow-sm focus:ring-orange-500 focus:border-orange-500 mt-1 block w-full sm:text-sm border-gray-300 rounded-md"></textarea>
+      </div>
+      <div class="mt-4 flex items-center sm:absolute sm:left-1/2 sm:top-0 sm:mt-0 sm:block">
+        <label for="quantity-<%= product.id %>" class="sr-only">Quantity, <%= product.title %></label>
+        <select class="quantity-selector" data-price="<%= product.price %>" id="quantity-<%= product.id %>" name="product[<%= product.id %>][quantity]" class="block max-w-full rounded-md border border-gray-300 py-1.5 text-left text-base font-medium leading-5 text-gray-700 shadow-sm focus:border-orange-500 focus:outline-none focus:ring-1 focus:ring-orange-500 sm:text-sm">
+          <% if day.primary_product.id != product.id %>
+            <option value="0" selected>0</option>
+            <option value="1">1</option>
+          <% end %>
+          <% if day.primary_product.id == product.id %>
+            <option value="2" selected >2</option>
+          <% else %>
+            <option value="2" >2</option>
+          <% end %>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</li>

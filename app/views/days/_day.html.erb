@@ -1,0 +1,33 @@
+<div id="<%= dom_id day %>">
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Description</p>
+    <%= day.description %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Date</p>
+    <%= day.date %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Is locked</p>
+    <%= day.is_locked %>
+  </div>
+</div>
+<% if action_name == 'show' %>
+  <div class="container px-4 mx-auto my-8">
+    <div class="flex items-center justify-between mb-4">
+      <div>
+        <h1 class="h3">Slots</h1>
+      </div>
+    </div>
+    <%= tag.div id: ("slots"), class: "bg-white rounded-md shadow p-6 space-y-8" do %>
+      <%= render partial: "slots/index", collection: day.slots, as: :slot, cached: true %>
+      <div class="hidden only:flex flex-col items-center justify-between lg:flex-row">
+        <%= image_tag "empty.svg", class: "mb-4 lg:w-1/2" %>
+        <div class="flex-1 text-center">
+          <p class="mb-4 h3">Create your first Slot</p>
+          <%= link_to t("shared.scaffold.new.title", model: "Slot"), new_slot_path, class: "btn btn-primary" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,6 +1,10 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  def ordinalize_date(date)
+    date.strftime("%B #{date.day.ordinalize}")
+  end
+
   # Generates button tags for Turbo disable with
   # Preserve opacity-25 opacity-75 during purge
   def button_text(text = nil, disable_with: t("processing"), &block)

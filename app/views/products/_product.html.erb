@@ -1,0 +1,35 @@
+<div id="<%= dom_id product %>">
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Title</p>
+    <%= product.title %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Price</p>
+    <%= product.price %>
+  </div>
+  <div class="mb-4">
+    <p class="text-sm font-medium text-gray-500">Description</p>
+    <%= product.description %>
+  </div>
+  <div class="m-4">
+    <p class="text-sm font-medium text-gray-500">Ingredients</p>
+    <%= product.ingredients %>
+  </div>
+  <div class="m-4">
+    <p class="text-sm font-medium text-gray-500">Tags</p>
+    <%= product.tags %>
+  </div>
+  <hr style='width:100%;float:left; margin: 20px;'>
+  <h2>Main Image</h2>
+  <%= image_tag product.main_image, style: 'max-width:200px;' if product.main_image.attached? %>
+  <hr style='width:100%;float:left; margin: 20px;'>
+  <div>
+    <h2>Gallery Images</h2>
+    <% if product.images.attached? %>
+      <% product.images.each do |image| %>
+        <hr style='width:100%;float:left; margin: 20px;'>
+        <%= image_tag image, style: 'max-width:200px;' %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

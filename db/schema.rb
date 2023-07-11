@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_04_162609) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_07_223437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -149,6 +149,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_162609) do
     t.index ["owner_id", "owner_type"], name: "index_connected_accounts_on_owner_id_and_owner_type"
   end
 
+  create_table "day_products", force: :cascade do |t|
+    t.bigint "day_id", null: false
+    t.bigint "product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["day_id"], name: "index_day_products_on_day_id"
+    t.index ["product_id"], name: "index_day_products_on_product_id"
+  end
+
+  create_table "days", force: :cascade do |t|
+    t.text "description"
+    t.datetime "date"
+    t.boolean "is_locked"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "primary_product_id"
+    t.index ["primary_product_id"], name: "index_days_on_primary_product_id"
+  end
+
   create_table "notification_tokens", force: :cascade do |t|
     t.bigint "user_id"
     t.string "token", null: false
@@ -170,6 +189,33 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_162609) do
     t.datetime "interacted_at", precision: nil
     t.index ["account_id"], name: "index_notifications_on_account_id"
     t.index ["recipient_type", "recipient_id"], name: "index_notifications_on_recipient_type_and_recipient_id"
+  end
+
+  create_table "order_items", force: :cascade do |t|
+    t.bigint "order_id", null: false
+    t.bigint "product_id", null: false
+    t.integer "quantity"
+    t.decimal "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text "comments"
+    t.index ["order_id"], name: "index_order_items_on_order_id"
+    t.index ["product_id"], name: "index_order_items_on_product_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.bigint "slot_id", null: false
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "tupperware_charge", precision: 8, scale: 2
+    t.decimal "subtotal", precision: 8, scale: 2
+    t.decimal "tax", precision: 8, scale: 2
+    t.decimal "total", precision: 8, scale: 2
+    t.boolean "completed", default: false
+    t.decimal "music_charge", precision: 8, scale: 2
+    t.index ["slot_id"], name: "index_orders_on_slot_id"
+    t.index ["user_id"], name: "index_orders_on_user_id"
   end
 
   create_table "pay_charges", force: :cascade do |t|
@@ -273,6 +319,27 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_162609) do
     t.boolean "charge_per_unit"
   end
 
+  create_table "products", force: :cascade do |t|
+    t.string "title"
+    t.decimal "price"
+    t.text "description"
+    t.text "ingredients"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "tags", default: [], array: true
+  end
+
+  create_table "slots", force: :cascade do |t|
+    t.bigint "day_id", null: false
+    t.datetime "delivery_start_time"
+    t.datetime "delivery_end_time"
+    t.integer "available_additions"
+    t.integer "available_entrees"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["day_id"], name: "index_slots_on_day_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -320,7 +387,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_04_162609) do
   add_foreign_key "accounts", "users", column: "owner_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "api_tokens", "users"
+  add_foreign_key "day_products", "days"
+  add_foreign_key "day_products", "products"
+  add_foreign_key "days", "products", column: "primary_product_id"
+  add_foreign_key "order_items", "orders"
+  add_foreign_key "order_items", "products"
+  add_foreign_key "orders", "slots"
+  add_foreign_key "orders", "users"
   add_foreign_key "pay_charges", "pay_customers", column: "customer_id"
   add_foreign_key "pay_payment_methods", "pay_customers", column: "customer_id"
   add_foreign_key "pay_subscriptions", "pay_customers", column: "customer_id"
+  add_foreign_key "slots", "days"
 end

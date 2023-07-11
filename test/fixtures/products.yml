@@ -1,0 +1,25 @@
+# == Schema Information
+#
+# Table name: products
+#
+#  id          :bigint           not null, primary key
+#  description :text
+#  ingredients :text
+#  price       :decimal(, )
+#  tags        :string           default([]), is an Array
+#  title       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#
+
+one:
+  title: MyString
+  price: 9.99
+  description: MyText
+  ingredients: MyText
+
+two:
+  title: MyString
+  price: 9.99
+  description: MyText
+  ingredients: MyText

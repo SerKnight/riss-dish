@@ -1,0 +1,17 @@
+<%= content_for :title, "Order Items ##{@order_item.id}" %>
+<%= turbo_stream_from @order_item %>
+
+<div class="container px-4 mx-auto my-8">
+  <div class="flex items-center justify-between mb-4">
+    <h1 class="h3">
+      <%= link_to "Order Items", order_items_path, class: "text-black" %>
+      <span class="text-gray-400 font-light mx-2">\</span>
+      Order Item #<%= @order_item.id %>
+    </h1>
+    <%= link_to t("edit"), edit_order_item_path(@order_item), class: "btn btn-white" %>
+  </div>
+
+  <div class="p-8 bg-white rounded shadow">
+    <%= render @order_item %>
+  </div>
+</div>

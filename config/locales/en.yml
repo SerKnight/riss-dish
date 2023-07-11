@@ -123,13 +123,13 @@ en:
 
   announcements:
     index:
-      title: "What's New"
-      description: "New updates and improvements to %{name}"
-      empty_placeholder: "Exciting stuff coming very soon!"
+      title: "New Dishes!"
+      description: "News from %{name}"
+      empty_placeholder: "Exciting new dishes coming soon!"
 
     show:
-      title: "What's New"
-      description: "New updates and improvements to %{name}"
+      title: "New Dishes!"
+      description: "New dishes with %{name}"
       back: "Back"
 
   api_tokens:
@@ -242,7 +242,7 @@ en:
       twitter: "Sign in with Twitter"
     right_nav:
       pricing: "Pricing"
-      announcements: "What's New"
+      announcements: "New Dishes!"
     scaffold:
       edit:
         title: "Edit %{model}"

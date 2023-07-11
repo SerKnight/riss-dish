@@ -1,0 +1,36 @@
+<%= form_with(model: day, class: "space-y-6") do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  <div class="form-group">
+    <%= form.label :description, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.text_area :description, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :date, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.date_field :date, class: "mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-orange-500 focus:border-orange-500 sm:text-sm" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :is_locked, class: "block text-sm font-medium text-gray-700" %>
+    <%= form.check_box :is_locked, class: "mt-1 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded" %>
+  </div>
+  <div class="form-group">
+    <%= form.label "Primary Product", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.select :primary_product_id, Product.all.collect { |p| [p.title, p.id] }, {}, class: 'your-class-here' %>
+  </div>
+  <div class="form-group">
+    <%= form.label "Other Products", class: "block text-sm font-medium text-gray-700" %>
+    <%= form.collection_check_boxes :product_ids, Product.all, :id, :title do |b| %>
+      <div class="form-check mt-2 float-left w-full">
+        <%= b.check_box class: "float-left mr-2 mt-1 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded" %>
+        <%= b.label class: "pt-1 float-left text-sm text-gray-900" %>
+      </div>
+    <% end %>
+  </div>
+  <div>
+    <%= form.button button_text(form.send(:submit_default_value)), class: "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-600 hover:bg-orange-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500" %>
+    <% if form.object.new_record? %>
+      <%= link_to t("cancel"), days_path, class: "mt-3 w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-gray-50" %>
+    <% else %>
+      <%= link_to t("cancel"), day_path(@day), class: "mt-3 w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-black bg-white hover:bg-gray-50" %>
+    <% end %>
+  </div>
+<% end %>

@@ -1,0 +1,45 @@
+<%= form_with(model: product) do |form| %>
+  <%= render "shared/error_messages", resource: form.object %>
+  <div class="form-group">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :price %>
+    <%= form.text_field :price, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :description %>
+    <%= form.text_area :description, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :ingredients %>
+    <%= form.text_area :ingredients, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :tags, "Tags (comma separated)" %>
+    <%= form.text_field :tags, value: @product.tags.join(", "), class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= form.label :tags, "Main Image" %>
+    <%= form.file_field :main_image, direct_upload: true %>
+  </div>
+  <%= image_tag product.main_image, style: 'max-width:200px;' if product.main_image.attached? %>
+  <div class="form-group" style='margin-top: 10px;'>
+    <%= form.label :tags, "Gallery Images" %>
+    <%= form.file_field :images, multiple: true, direct_upload: true %>
+  </div>
+  <% if product.images.attached? %>
+    <% product.images.each do |image| %>
+      <%= image_tag image, style: 'max-width:200px;' %>
+    <% end %>
+  <% end %>
+  <div>
+    <%= form.button button_text(form.send(:submit_default_value)), class: "btn btn-primary" %>
+    <% if form.object.new_record? %>
+      <%= link_to t("cancel"), products_path, class: "btn btn-white" %>
+    <% else %>
+      <%= link_to t("cancel"), product_path(@product), class: "btn btn-white" %>
+    <% end %>
+  </div>
+<% end %>
